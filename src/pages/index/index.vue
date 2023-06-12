@@ -1,11 +1,11 @@
 <template>
 	<el-container class="index">
-		<el-header class="head">Header</el-header>
+		<el-header class="head" :style="{ height: headHeight }">Header</el-header>
 		<el-container>
-			<el-aside class="left">
+			<el-aside class="left" :style="{ height: leftHeight }">
 				<menus></menus>
 			</el-aside>
-			<el-main class="main">
+			<el-main class="main" :style="{ height: mainHeight }">
 				<router-view></router-view>
 			</el-main>
 		</el-container>
@@ -16,6 +16,10 @@
 	import { onMounted, onActivated } from 'vue'
 	import menus from './menu/index.vue'
 
+	const height = 0;
+	const headHeight = `${height}px`;
+	const leftHeight = `calc(100vh-${height}px)`;
+	const mainHeight = `calc(100vh-${height}px)`;
 	const getList = e => {
 		// console.log(e)
 	}
@@ -74,18 +78,12 @@
 	height: 100vh;
 	overflow: hidden;
 	.head {
-		background-color: #ccc;
-		height: 60px;
 	}
 	.left {
 		width: auto;
-		height: calc(100vh - 60px);
 		border-right: solid 1px var(--el-menu-border-color);
-		// background-color: #333;
 	}
 	.main {
-		height: calc(100vh - 60px);
-		background-color: #fff;
 		overflow-y: auto;
 	}
 }
