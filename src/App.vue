@@ -15,6 +15,14 @@
   <router-view></router-view>
 </template>
 
+<script setup>
+import { useStore } from "@/store/data";
+import * as utils from '@/utils';
+const store = useStore();
+window.$data = store;
+window.$utils = utils;
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

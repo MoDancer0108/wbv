@@ -1,7 +1,8 @@
 <template>
 	<ModalSlot
 		:model="initModal('modal')"
-		:title="modalTitle"
+		:title="ctx.modalTitle"
+		width="30%"
 		:close-on-click-modal="false"
 		@closed="closedModal"
 	>
@@ -17,9 +18,8 @@
 			</el-form-item>
 		</FormSlot>
 		<template #footer>
-			<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
-			<el-button @click="clearForm2">重置</el-button>
 			<el-button @click="closeModal('modal')">取消</el-button>
+			<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
 		</template>
 	</ModalSlot>
 </template>
@@ -29,12 +29,11 @@ import { ref, reactive, inject } from 'vue';
 import { ElMessage } from 'element-plus'
 
 import { FormSlot, ModalSlot } from '@/wbv';
-import { addOrEditApi } from '@/api/mockData';
+import { addOrEditApi } from '@/api';
 /*  */
 const ctx = inject('ctx');
-const { initModal, initForm, closeModal, getFormSlotRef, refreshList } = ctx;
+const { initModal, initForm, closeModal, getFormSlotRef } = ctx;
 /*  */
-const modalTitle = ref('创建');
 const submitButtonLoading = ref(false);
 const form2Rules = reactive({
 	name: [
@@ -48,28 +47,26 @@ const form2Rules = reactive({
 function closedModal() {
 	ctx.form2 = {};
 }
-function clearForm2() {
-	const form2Ref = getFormSlotRef('form2');
-	form2Ref.resetFields();
-}
 function submit() {
 	const form2Ref = getFormSlotRef('form2');
 	form2Ref.validate((valid, fields) => {
 		if (valid) {
 			submitButtonLoading.value = true;
 			addOrEditApi(ctx.form2).then(res => {
-				refreshList();
+				ctx.refreshList();
 				closeModal('modal');
 				submitButtonLoading.value = false;
 				if (ctx.form2.id) {
 					ElMessage({
 						type: 'success',
 						message: '修改成功',
+						duration: 1000,
 					});
 				} else {
 					ElMessage({
 						type: 'success',
 						message: '创建成功',
+						duration: 1000,
 					});
 				}
 			});

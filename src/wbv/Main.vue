@@ -9,6 +9,7 @@
 import {
 	ref,
 	reactive,
+	computed,
 	defineComponent,
 	provide,
 	inject,

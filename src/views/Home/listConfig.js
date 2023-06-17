@@ -1,4 +1,4 @@
-import { getListApi } from '@/api/mockData';
+import { getListApi } from '@/api';
 
 export default {
     async getList({

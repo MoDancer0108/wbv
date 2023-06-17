@@ -1,8 +1,6 @@
 <template>
 	<div class="listSlot">
-		<slot
-			:ctx="ctx"
-		></slot>
+		<slot></slot>
 		<el-pagination
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
@@ -62,13 +60,13 @@ ctx.refreshList = getList;
 watch(currentPage, (n, o) => {
 	getList();
 }, {
-	immediate: true,
+	immediate: false,
 	deep: true,
 });
 watch(pageSize, (n, o) => {
 	getList();
 }, {
-	immediate: true,
+	immediate: false,
 	deep: true,
 });
 onMounted(() => {
