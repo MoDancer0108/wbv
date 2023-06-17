@@ -1,13 +1,13 @@
 <template>
 	<ModalSlot
-		:model="initModal('modal')"
+		:model="ctx.initModal('modal')"
 		:title="ctx.modalTitle"
 		width="30%"
 		:close-on-click-modal="false"
 		@closed="closedModal"
 	>
 		<FormSlot
-			:model="initForm('form2')"
+			:model="ctx.initForm('form2')"
 			:rules="form2Rules"
 		>
 			<el-form-item label="姓名" prop="name">
@@ -18,7 +18,7 @@
 			</el-form-item>
 		</FormSlot>
 		<template #footer>
-			<el-button @click="closeModal('modal')">取消</el-button>
+			<el-button @click="ctx.closeModal('modal')">取消</el-button>
 			<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
 		</template>
 	</ModalSlot>
@@ -32,7 +32,6 @@ import { FormSlot, ModalSlot } from '@/wbv';
 import { addOrEditApi } from '@/api';
 /*  */
 const ctx = inject('ctx');
-const { initModal, initForm, closeModal, getFormSlotRef } = ctx;
 /*  */
 const submitButtonLoading = ref(false);
 const form2Rules = reactive({
@@ -48,14 +47,14 @@ function closedModal() {
 	ctx.form2 = {};
 }
 function submit() {
-	const form2Ref = getFormSlotRef('form2');
+	const form2Ref = ctx.getFormSlotRef('form2');
 	form2Ref.validate((valid, fields) => {
 		if (valid) {
 			submitButtonLoading.value = true;
 			addOrEditApi(ctx.form2).then(res => {
 				if (res.code ==200) {
 					ctx.refreshList();
-					closeModal('modal');
+					ctx.closeModal('modal');
 					if (ctx.form2.id) {
 						ElMessage({
 							type: 'success',

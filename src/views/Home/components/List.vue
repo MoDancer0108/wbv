@@ -1,9 +1,10 @@
 <template>
 	<div class="list">
 		<ListSlot
-			:model="initList('list')"
+			:model="ctx.initList('list')"
 			:page-sizes="[10, 20, 30, 40]"
 			layout="slot, sizes, prev, pager, next"
+			:background="true"
 		>
 			<el-table :data="ctx.list" v-loading="ctx.model.listLoading">
 				<el-table-column prop="updateDate" label="修改日期" width="200">
@@ -38,10 +39,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ListSlot } from '@/wbv';
 import { delApi } from '@/api';
 const { getTime } = $utils;
-const { getLocalData, setLocalData } = $data;
 /*  */
 const ctx = inject('ctx');
-const { initList, getListSlotRef } = ctx;
 /*  */
 /*  */
 function del(row) {

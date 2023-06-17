@@ -1,7 +1,7 @@
 <template>
 	<div class="head">
 		<FormSlot
-			:model="initForm('form1')"
+			:model="ctx.initForm('form1')"
 			:inline="true"
 		>
 			<el-form-item prop="name">
@@ -26,15 +26,14 @@ import { inject } from 'vue';
 import { FormSlot } from '@/wbv';
 /*  */
 const ctx = inject('ctx');
-const { initForm, showModal, getFormSlotRef } = ctx;
 /*  */
 /*  */
 function add() {
 	ctx.modalTitle = '创建';
-	showModal('modal');
+	ctx.showModal('modal');
 }
 function clearForm1() {
-	const form1Ref = getFormSlotRef('form1');
+	const form1Ref = ctx.getFormSlotRef('form1');
 	form1Ref.resetFields();
 	ctx.refreshList();
 }

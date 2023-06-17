@@ -4,11 +4,20 @@
 		<el-pagination
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
-			:page-sizes="props.pageSizes"
-			:layout="props.layout"
 			:total="total"
 
-			:background="true"
+			:small="props.small"
+			:background="props.background"
+			:pager-count="props.pagerCount"
+			:layout="props.layout"
+			:page-sizes="props.pageSizes"
+			:popper-class="props.popperClass"
+			:prev-text="props.prevText"
+			:prev-icon="props.prevIcon"
+			:next-text="props.nextText"
+			:next-icon="props.nextIcon"
+			:disabled="props.disabled"
+			:hide-on-single-page="props.hideOnSinglePage"
 		>
 			<slot name="pagination"></slot>
 		</el-pagination>
@@ -28,8 +37,19 @@ const listConfig = inject('listConfig');
 const ctx = inject('ctx');
 const props = defineProps([
 	'model',
-	'pageSizes',
+
+	'small',
+	'background',
+	'pagerCount',
 	'layout',
+	'pageSizes',
+	'popperClass',
+	'prevText',
+	'prevIcon',
+	'nextText',
+	'nextIcon',
+	'disabled',
+	'hideOnSinglePage',
 ]);
 /*  */
 const currentPage = ref(1);

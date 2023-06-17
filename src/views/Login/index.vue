@@ -1,17 +1,12 @@
 <template>
 	<wbv>
-		<Head></Head>
+		<Main></Main>
 	</wbv>
 </template>
 
 <script setup>
-import { provide } from 'vue';
-
 import { wbv } from '@/wbv';
-import model from './model';
-import Head from './components/Head';
-
-provide('model', model)
+import Main from './Main';
 </script>
 
 <style scoped lang="scss">

@@ -1,9 +1,9 @@
 <template>
-	<div class="head">
+	<div class="main">
 		<el-card class="login">
 			<img class="img" src="/favicon.ico" alt="">
 			<FormSlot
-				:model="initForm('form')"
+				:model="ctx.initForm('form')"
 				label-width="80px"
 				:rules="formRules"
 			>
@@ -41,7 +41,6 @@ import { regApi, loginApi } from '@/api/login';
 const { setLocalData } = $data;
 /*  */
 const ctx = inject('ctx');
-const { initForm, getFormSlotRef } = ctx;
 const router = useRouter();
 /*  */
 const isLogin = ref(true);
@@ -61,7 +60,7 @@ function toggle() {
 	isLogin.value = !isLogin.value;
 }
 function reg() {
-	const formRef = getFormSlotRef('form');
+	const formRef = ctx.getFormSlotRef('form');
 	formRef.validate((valid, fields) => {
 		if (valid) {
 			regApi(ctx.form).then(res => {
@@ -85,7 +84,7 @@ function reg() {
 	})
 }
 function login() {
-	const formRef = getFormSlotRef('form');
+	const formRef = ctx.getFormSlotRef('form');
 	formRef.validate((valid, fields) => {
 		if (valid) {
 			loginApi(ctx.form).then(res => {
@@ -122,7 +121,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.head {
+.main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
