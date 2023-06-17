@@ -50,8 +50,10 @@ function getList() {
 			currentPage: currentPage.value,
 			pageSize: pageSize.value,
 		}).then(res => {
-			total.value = res.total;
-			ctx.list = res.data;
+			if (res.data) {
+				total.value = res.total;
+				ctx.list = res.data;
+			}
 		});
 	}
 }
@@ -80,7 +82,7 @@ onMounted(() => {
 		margin-top: 12px;
 		justify-content: flex-end;
 	}
-	::v-deep .el-loading-mask {
+	:deep(.el-loading-mask) {
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 }

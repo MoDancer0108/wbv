@@ -58,5 +58,20 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
+router.beforeEach((to, from) => {
+  const isLogin = $data.getLocalData('userID');
+  if (isLogin) {
+    // 已登录不能去登录页
+    if (to.path == '/login') {
+      return false;
+    }
+  } else {
+    // 未登录不能去非登录页
+    if (to.path != '/login') {
+      if (from.path == '/login') return false;
+      return router.push('/login');
+    }
+  }
+  return true;
+})
 export default router

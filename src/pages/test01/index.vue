@@ -45,7 +45,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.el-button ::v-deep span {
+.el-button :deep(span) {
     color: red;
 }
 </style>

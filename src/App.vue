@@ -18,9 +18,13 @@
 <script setup>
 import { useStore } from "@/store/data";
 import * as utils from '@/utils';
+
 const store = useStore();
+
 window.$data = store;
 window.$utils = utils;
+
+console.log('%cwindow', 'color: #43bb88;', '$data', '$utils')
 </script>
 
 <style lang="scss">

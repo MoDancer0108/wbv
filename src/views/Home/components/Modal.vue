@@ -53,22 +53,30 @@ function submit() {
 		if (valid) {
 			submitButtonLoading.value = true;
 			addOrEditApi(ctx.form2).then(res => {
-				ctx.refreshList();
-				closeModal('modal');
-				submitButtonLoading.value = false;
-				if (ctx.form2.id) {
+				if (res.code ==200) {
+					ctx.refreshList();
+					closeModal('modal');
+					if (ctx.form2.id) {
+						ElMessage({
+							type: 'success',
+							message: '修改成功',
+							duration: 1000,
+						});
+					} else {
+						ElMessage({
+							type: 'success',
+							message: '创建成功',
+							duration: 1000,
+						});
+					}
+				} else if (res.msg) {
 					ElMessage({
-						type: 'success',
-						message: '修改成功',
-						duration: 1000,
-					});
-				} else {
-					ElMessage({
-						type: 'success',
-						message: '创建成功',
+						type: 'error',
+						message: res.msg,
 						duration: 1000,
 					});
 				}
+				submitButtonLoading.value = false;
 			});
 		}
 	})

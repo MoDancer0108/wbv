@@ -1,3 +1,5 @@
 export const getTime = e => {
-    return new Date(e).toString().slice(10, 24)
+    return new Date(e).toLocaleDateString()
+        + ' '
+        + new Date(e).toLocaleTimeString();
 };

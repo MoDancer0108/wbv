@@ -13,9 +13,10 @@ function HttpClient(baseUrl,datamanager) {
 
 //处理post请求的返回数据
 HttpClient.prototype.handlePost = function(postobj, res,url) {
-	if (res.code == 200) {
+	if (res) {
 		if (postobj.thencallback) {
-			postobj.thencallback(res.data);
+			postobj.thencallback(res);
+			console.log(res, url)
 		}
 	} else {
 		if (postobj.catchcallback) {
@@ -99,7 +100,6 @@ HttpClient.prototype.post = function(url, params,isload) {
         headers: headers,
     })
         .then((res) => {
-			console.log(res.data, url)
             this.handlePost(postobj, res.data, url);
         })
         .catch((err) => {

@@ -82,7 +82,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .dialog {
-	::v-deep .el-dialog__footer {
+	:deep(.el-dialog__footer) {
 		padding-top: 0;
 	}
 }

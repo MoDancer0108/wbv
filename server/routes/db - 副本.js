@@ -8,6 +8,32 @@ var ObjectId =mongodb.ObjectId;
 
 var dbName = 'test05'; //链接库名
 
+
+var findList = function(client, collection, selector, callback) {
+  // 查找
+  const {
+    currentPage,
+    pageSize,
+    ...obj
+  } = selector;
+  collection.find().toArray(function(e, res) {
+    collection.find(obj).toArray(function(err, reslult) {
+      if (err) throw err;
+      console.log('查询成功');
+      callback({
+        total: res.length,
+        data: reslult.reverse()
+          .map(it => {
+            const { _id, ...item } = it;
+            return { ...item, id: _id };
+          })
+          .slice((currentPage-1) * pageSize, currentPage * pageSize)
+        ,
+      })
+      client.close();
+    })
+  })
+}
 // 增加一个
 var add = function(client, collection, selector, callback) {
   const { id, ...item } = selector
@@ -57,45 +83,48 @@ var update = function(client, collection, selector, callback) {
     })
   })
 }
-// 查找
-var find = function(client, collection, selector, callback) {
-	collection.find(selector).toArray(function(err, reslult) {
-		if (err) throw err;
-		console.log('查询成功');
-		callback(reslult)
-		client.close();
-	})
-}
-var findList = function(client, collection, selector, callback) {
-  const {
-    currentPage,
-    pageSize,
-    ...obj
-  } = selector;
-  collection.find().toArray(function(e, res) {
-    collection.find(obj).toArray(function(err, reslult) {
-      if (err) throw err;
-      console.log('查询成功');
-      callback({
-        total: res.length,
-        data: reslult.reverse()
-          .map(it => {
-            const { _id, ...item } = it;
-            return { ...item, id: _id };
-          })
-          .slice((currentPage-1) * pageSize, currentPage * pageSize)
-        ,
-      })
-      client.close();
-    })
-  })
-}
+// // 更新多个
+// // 修改一个 方法
+// var updateMany = function(client, collection, selector, callback) {
+//   //                  修改条件              修改内容
+//   collection.updateMany(selector[0], { $set: selector[1] }, function(
+//     err,
+//     result
+//   ) {
+//     if (err) throw err
+//     console.log('修改成功')
+//     callback(result)
+//     client.close()
+//   })
+// }
+// //删除多个
+// var delMany = function(client, collection, selector, callback) {
+//   collection.deleteMany(selector, function(err, result) {
+//     if (err) throw err
+//     console.log('删除成功')
+//     callback(result)
+//     client.close()
+//   })
+// }
+// // 增加多个
+// var insertMany = function(client, collection, selector, callback) {
+//   collection.insertMany(selector, function(err, result) {
+//     if (err) throw err
+//     console.log('添加成功')
+//     callback(result)
+//     client.close() //释放链接
+//   })
+// }
+//把封装方法 放到对象中
 var methodType = {
 	find,
   findList,
   add,
   del,
   update,
+  // updateMany: updateMany,
+  // delMany: delMany,
+  // insertMany: insertMany
 }
 
 // type  数据库操作类型

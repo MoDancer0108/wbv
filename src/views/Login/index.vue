@@ -1,20 +1,18 @@
 <template>
-	<div class="login">
-		login
-	</div>
+	<wbv>
+		<Head></Head>
+	</wbv>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
-import { loginApi } from '@/api/login';
-loginApi({ user: 1 }).then(res => {
-});
-/*  */
-/*  */
-/*  */
-/*  */
+import { provide } from 'vue';
+
+import { wbv } from '@/wbv';
+import model from './model';
+import Head from './components/Head';
+
+provide('model', model)
 </script>
 
 <style scoped lang="scss">
-	
 </style>

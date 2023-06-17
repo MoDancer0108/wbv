@@ -1,6 +1,5 @@
 <template>
 	<div class="list">
-		<el-button @click="fn">fn</el-button>
 		<ListSlot
 			:model="initList('list')"
 			:page-sizes="[10, 20, 30, 40]"
@@ -39,6 +38,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ListSlot } from '@/wbv';
 import { delApi } from '@/api';
 const { getTime } = $utils;
+const { getLocalData, setLocalData } = $data;
 /*  */
 const ctx = inject('ctx');
 const { initList, getListSlotRef } = ctx;
@@ -56,7 +56,15 @@ function del(row) {
 				if (action === 'confirm') {
 					instance.confirmButtonLoading = true;
 					delApi(row.id).then(res => {
-						ctx.refreshList();
+						if (res.code ==200) {
+							ctx.refreshList();
+						} else if (res.msg) {
+							ElMessage({
+								type: 'error',
+								message: res.msg,
+								duration: 1000,
+							});
+						}
 						done();
 					});
 				} else {
@@ -78,11 +86,6 @@ function edit(row) {
 	ctx.modalTitle = '编辑';
 	ctx.form2 = {...row};
 	ctx.showModal('modal');
-}
-function fn() {
-	console.log(ctx.model);
-	// const listRef = getListSlotRef('list');
-	// listRef.setCurrentPage(3);
 }
 /*  */
 </script>

@@ -1,3 +1,5 @@
+
+import { ElMessage } from 'element-plus';
 import { getListApi } from '@/api';
 
 export default {
@@ -14,9 +16,18 @@ export default {
             ...ctx.form1,
         });
         model.listLoading = false;
-        return {
-            total: res.total,
-            data: res.data,
-        };
+        if (res.code ==200) {
+            return {
+                total: res.data.total,
+                data: res.data.data,
+            };
+        } else if (res.msg) {
+            ElMessage({
+                type: 'error',
+                message: res.msg,
+                duration: 1000,
+            });
+            return {};
+        }
     },
 };
