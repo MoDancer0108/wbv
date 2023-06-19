@@ -1,6 +1,9 @@
 <template>
 	<el-container class="index">
-		<el-header class="head" :style="{ height: headHeight }">Header</el-header>
+		<el-header class="head" :style="{ height: headHeight }">
+			<div></div>
+			<el-button class="logOff" type="danger" @click="logOff()">退出登录</el-button>
+		</el-header>
 		<el-container>
 			<el-aside class="left" :style="{ height: leftHeight }">
 				<menus></menus>
@@ -14,24 +17,29 @@
 
 <script setup>
 	import { onMounted, onActivated } from 'vue'
+	import { useRouter } from 'vue-router';
 	import menus from './menu/index.vue'
+	const router = useRouter();
 
-	const height = 0;
+	const height = 60;
 	const headHeight = `${height}px`;
 	const leftHeight = `calc(100vh-${height}px)`;
 	const mainHeight = `calc(100vh-${height}px)`;
-	const getList = e => {
-		// console.log(e)
+	function logOff() {
+		$confirm({
+			message: '退出登录?',
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'error',
+		}).then(() => {
+			$data.setLocalData('userID', '');
+			router.push('/login');
+		}).catch(() => {});
 	}
 
 	onMounted(() => {
-		getList('onMounted')
 	})
 	onActivated(() => {
-		if(sessionStorage.getItem('isBack') === 'true'){
-		  sessionStorage.setItem('isBack', 'false')
-		  getList('onActivated')
-		}
 	})
 
 	// console.log(process.env)
@@ -78,6 +86,10 @@
 	height: 100vh;
 	overflow: hidden;
 	.head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: solid 1px var(--el-menu-border-color);
 	}
 	.left {
 		width: auto;

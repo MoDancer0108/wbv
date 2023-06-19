@@ -50,13 +50,8 @@ function del(row) {
 			if (action === 'confirm') {
 				instance.confirmButtonLoading = true;
 				delApi(row.id).then(res => {
-					if (res.code ==200) {
+					if (res.code == 200) {
 						ctx.refreshList();
-					} else if (res.msg) {
-						$toast.error({
-							message: res.msg,
-							duration: 1000,
-						});
 					}
 					done();
 				});
@@ -67,7 +62,7 @@ function del(row) {
 	}).then(() => {
 		$toast.success({
 			message: '删除成功',
-			duration: 1000,
+			duration: 2000,
 		});
 	}).catch(() => {});
 }

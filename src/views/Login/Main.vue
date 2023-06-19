@@ -37,7 +37,6 @@ import { useRouter } from "vue-router";
 
 import { FormSlot } from '@/wbv';
 import { regApi, loginApi } from '@/api/login';
-const { setLocalData } = $data;
 /*  */
 const ctx = inject('ctx');
 const router = useRouter();
@@ -63,17 +62,12 @@ function reg() {
 	formRef.validate((valid, fields) => {
 		if (valid) {
 			regApi(ctx.form).then(res => {
-				if (res.code ==200) {
+				if (res.code == 200) {
 					isLogin.value = true;
 					ctx.form = {};
 					$toast.success({
 						message: '注册成功',
-						duration: 1000,
-					});
-				} else if (res.msg) {
-					$toast.error({
-						message: res.msg,
-						duration: 1000,
+						duration: 2000,
 					});
 				}
 			});
@@ -85,14 +79,9 @@ function login() {
 	formRef.validate((valid, fields) => {
 		if (valid) {
 			loginApi(ctx.form).then(res => {
-				if (res.code ==200) {
-					setLocalData('userID', res.data);
+				if (res.code == 200) {
+					$data.setLocalData('userID', res.data);
 					router.push('/');
-				} else if (res.msg) {
-					$toast.error({
-						message: res.msg,
-						duration: 1000,
-					});
 				}
 			});
 		}

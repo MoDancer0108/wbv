@@ -15,16 +15,12 @@ export default {
             ...ctx.form1,
         });
         model.listLoading = false;
-        if (res.code ==200) {
+        if (res.code == 200) {
             return {
                 total: res.data.total,
                 data: res.data.data,
             };
         } else if (res.msg) {
-            $toast.error({
-                message: res.msg,
-                duration: 1000,
-            });
             return {};
         }
     },

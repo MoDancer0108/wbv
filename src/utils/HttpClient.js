@@ -18,13 +18,23 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 			postobj.thencallback(res);
 			console.log(res, url)
 		}
+		if (res.code != 200 && res.msg) {
+            $toast.error({
+                message: res.msg,
+                duration: 2000,
+            });
+		}
 	} else {
 		if (postobj.catchcallback) {
-			postobj.catchcallback.catch(res);
+			// postobj.catchcallback.catch(res);
 		} else {
 			console.log('============');
 			console.log(url);
 			console.log('============');
+            $toast.error({
+                message: '系统走神了!',
+                duration: 2000,
+            });
 		}
 	}
 };
