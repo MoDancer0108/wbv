@@ -1,8 +1,8 @@
 import wbv from './Main';
-import HeadSlot from './Head';
-import FormSlot from './Form';
-import ListSlot from './List';
-import ModalSlot from './Modal';
+import HeadSlot from './HeadSlot';
+import FormSlot from './FormSlot';
+import ListSlot from './ListSlot';
+import ModalSlot from './ModalSlot';
 
 export {
     wbv,

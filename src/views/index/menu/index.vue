@@ -5,9 +5,9 @@
 		  :unique-opened="true"
 		  :router="true"
 		>
-		  <el-sub-menu index="/pages">
+		  <el-sub-menu index="/views">
 			<template #title>
-			  <span>pages</span>
+			  <span>views</span>
 			</template>
 			<el-menu-item
 				v-for="item in menus"
@@ -32,24 +32,8 @@ const currentRoute = router.currentRoute._value.matched[1];
 //
 const menus = reactive([
 	{
-		name: 'Foo',
-		value: '/index/foo',
-	},
-	{
-		name: 'Test',
-		value: '/index/test',
-	},
-	{
-		name: 'Pinia',
-		value: '/index/pinia',
-	},
-	{
-		name: 'MyForm',
-		value: '/index/myForm',
-	},
-	{
-		name: 'Test01',
-		value: '/index/test01',
+		name: 'Home',
+		value: '/home',
 	},
 ])
 const defaultActive = ref(currentRoute.path || menus[0]?.value);

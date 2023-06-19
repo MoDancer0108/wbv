@@ -1,4 +1,5 @@
-import { getListApi } from '@/api/mockData';
+
+import { getListApi } from '@/api';
 
 export default {
     async getList({
@@ -14,9 +15,13 @@ export default {
             ...ctx.form1,
         });
         model.listLoading = false;
-        return {
-            total: res.total,
-            data: res.data,
-        };
+        if (res.code == 200) {
+            return {
+                total: res.data.total,
+                data: res.data.data,
+            };
+        } else if (res.msg) {
+            return {};
+        }
     },
 };

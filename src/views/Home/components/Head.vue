@@ -1,7 +1,7 @@
 <template>
 	<div class="head">
 		<FormSlot
-			:model="initForm('form1')"
+			:model="ctx.initForm('form1')"
 			:inline="true"
 		>
 			<el-form-item prop="name">
@@ -11,7 +11,7 @@
 				<el-button @click="clearForm1">重置</el-button>
 			</el-form-item>
 			<el-form-item>
-				<el-button @click="refreshList()">搜索</el-button>
+				<el-button @click="ctx.refreshList()">搜索</el-button>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="add">新增</el-button>
@@ -26,17 +26,16 @@ import { inject } from 'vue';
 import { FormSlot } from '@/wbv';
 /*  */
 const ctx = inject('ctx');
-const { initForm, showModal, getFormSlotRef, refreshList } = ctx;
 /*  */
 /*  */
 function add() {
-	modalTitle.value = '创建';
-	showModal('modal');
+	ctx.modalTitle = '创建';
+	ctx.showModal('modal');
 }
 function clearForm1() {
-	const form1Ref = getFormSlotRef('form1');
+	const form1Ref = ctx.getFormSlotRef('form1');
 	form1Ref.resetFields();
-	refreshList();
+	ctx.refreshList();
 }
 /*  */
 </script>

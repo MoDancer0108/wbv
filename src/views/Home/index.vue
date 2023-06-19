@@ -1,5 +1,5 @@
 <template>
-	<wbv>
+	<wbv :listConfig="listConfig" :model="model">
 		<Head></Head>
 		<List></List>
 		<Modal></Modal>
@@ -7,17 +7,12 @@
 </template>
 
 <script setup>
-import { provide } from 'vue';
-
 import { wbv } from '@/wbv';
 import listConfig from './listConfig';
 import model from './model';
 import Head from './components/Head';
 import List from './components/List';
 import Modal from './components/Modal';
-
-provide('listConfig', listConfig)
-provide('model', model)
 </script>
 
 <style scoped lang="scss">

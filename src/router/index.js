@@ -2,15 +2,11 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
-    name: 'Index',
+    path: '/index',
+    redirect: '/index/foo',
+    name: 'Index2',
     component: () => import('../pages/index/index.vue'),
     children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('../pages/Home/index.vue')
-      },
       {
         path: 'foo',
         name: 'Foo',
@@ -38,11 +34,44 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/',
+    redirect: '/home',
+    name: 'Index',
+    component: () => import('../views/index/index.vue'),
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('../views/Home/index.vue')
+      },
+    ],
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login/index.vue'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
+router.beforeEach((to, from) => {
+  const isLogin = $data.getLocalData('userID');
+  if (isLogin) {
+    // 已登录不能去登录页
+    if (to.path == '/login') {
+      return false;
+    }
+  } else {
+    // 未登录不能去非登录页
+    if (to.path != '/login') {
+      if (from.path == '/login') return false;
+      return router.push('/login');
+    }
+  }
+  return true;
+})
 export default router

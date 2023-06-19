@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+			list-style: none;
+		}
+		#msg_box{
+			width:700px;
+			margin:30px auto;
+
+		}
+		.msg{
+			display: flex;
+		}
+		.head{
+			display:flex;
+			justify-content: space-around;
+			width: 400px;
+			margin-bottom: 10px;
+		}
+		.head li{
+			width:60px;
+			height: 60px;
+		}
+		img{
+			width:60px;
+			height: 60px;
+		}
+	  	.msg_one{
+	  	display: flex;
+	  }
+	  .head .active{
+	  	border:1px red solid;
+	  }
+	  .date_del{
+	  	display: none; 
+	  }
+	  .msgactive{
+	  	background: 
+	  }
+	</style>
+</head>
+<body>
+<div id="msg_box">
+	<h1>这是一个留言板</h1>
+	<div class="msg">
+		<label for="">
+			昵称：<input type="text" class="nickName" style="height: 60px">
+		</label>
+		<ul class="head">
+          <li class="active"><img src="./images/1.png" alt="" /></li>
+          <li><img src="./images/2.png" alt="" /></li>
+          <li><img src="./images/3.png" alt="" /></li>
+          <li><img src="./images/4.png" alt="" /></li>
+        </ul>
+	</div>
+
+	<div class="msg_txt">
+		<textarea name="" id="msgTxt" cols="30" rows="10"></textarea>
+	</div>
+	<div class="btn wrap">
+		<button id="send">提交留言</button>
+	</div>
+	<!-- 渲染区间 -->
+	<div class="msg_list">
+<!-- 		<div class="msg_one">
+			<img src="./images/4.png" alt="">
+			<div class="msg_info">
+				<div>
+					<span>昵称：</span>
+					<span>留言内容</span>
+				</div>
+				<div>
+					时间：2021年6月
+				</div>
+				<div>
+					<span>赞</span> <span>(100)</span>
+					<span>踩</span> <span>(100)</span>
+				</div>
+			</div>
+
+			<div class="date_del">
+				<button>删除</button>
+			</div>
+		</div> -->
+
+	</div>
+</div>
+<script src="javascripts/jq.js"></script>
+<script src="javascripts/lyb.js"></script>
+</body>
+</html>

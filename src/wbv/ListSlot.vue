@@ -1,16 +1,12 @@
 <template>
 	<div class="listSlot">
-		<slot
-			:ctx="ctx"
-		></slot>
+		<slot></slot>
 		<el-pagination
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
-			:page-sizes="props.pageSizes"
-			:layout="props.layout"
 			:total="total"
 
-			:background="true"
+			v-bind="$attrs"
 		>
 			<slot name="pagination"></slot>
 		</el-pagination>
@@ -30,8 +26,8 @@ const listConfig = inject('listConfig');
 const ctx = inject('ctx');
 const props = defineProps([
 	'model',
-	'pageSizes',
-	'layout',
+	
+	'pageSizes'
 ]);
 /*  */
 const currentPage = ref(1);
@@ -52,8 +48,10 @@ function getList() {
 			currentPage: currentPage.value,
 			pageSize: pageSize.value,
 		}).then(res => {
-			total.value = res.total;
-			ctx.list = res.data;
+			if (res.data) {
+				total.value = res.total;
+				ctx.list = res.data;
+			}
 		});
 	}
 }
@@ -62,13 +60,13 @@ ctx.refreshList = getList;
 watch(currentPage, (n, o) => {
 	getList();
 }, {
-	immediate: true,
+	immediate: false,
 	deep: true,
 });
 watch(pageSize, (n, o) => {
 	getList();
 }, {
-	immediate: true,
+	immediate: false,
 	deep: true,
 });
 onMounted(() => {
@@ -82,7 +80,7 @@ onMounted(() => {
 		margin-top: 12px;
 		justify-content: flex-end;
 	}
-	::v-deep .el-loading-mask {
+	:deep(.el-loading-mask) {
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 }

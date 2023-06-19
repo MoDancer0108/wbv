@@ -1,26 +1,21 @@
 <template>
 	<div class="wbv">
 		<slot></slot>
-		<vModel ref="model"></vModel>
 	</div>
 </template>
 
 <script setup>
 import {
-	ref,
 	reactive,
-	defineComponent,
-	provide,
-	inject,
-	onMounted
+	provide
 } from 'vue'
 /*  */
-const vModel = defineComponent(inject('model'));
-const model = ref(null);
+const props = defineProps([
+	'listConfig',
+	'model',
+]);
 /*  */
 const ctx = reactive({
-	model: model.value || {},
-
 	initForm,
 	getFormSlotRef,
 	_formRefs: {},
@@ -35,7 +30,9 @@ const ctx = reactive({
 	showModal,
 	closeModal,
 });
+ctx.model = props.model && props.model instanceof Function && props.model(ctx);
 provide('ctx', ctx);
+provide('listConfig', props.listConfig);
 /*  */
 function showModal(dialogName) {
 	ctx[dialogName] = true;
@@ -74,14 +71,11 @@ function initModal(modalName) {
 	return [ctx[modalName], modalName];
 }
 /*  */
-onMounted(() => {
-
-});
 </script>
 
 <style scoped lang="scss">
 .dialog {
-	::v-deep .el-dialog__footer {
+	:deep(.el-dialog__footer) {
 		padding-top: 0;
 	}
 }

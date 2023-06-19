@@ -10,6 +10,11 @@
     </div>
 </template>
   
+<script>
+export default defineComponent({
+    name: 'Test01',
+});
+</script>
 <script setup>
 import { ref, reactive, nextTick, onMounted, computed, defineComponent } from "vue";
 import { useStore } from "@/store/data";
@@ -38,14 +43,9 @@ onMounted(() => {
 });
 
 </script>
-<script>
-export default defineComponent({
-    name: 'Test01',
-});
-</script>
 
 <style scoped lang="scss">
-.el-button ::v-deep span {
+.el-button :deep(span) {
     color: red;
 }
 </style>

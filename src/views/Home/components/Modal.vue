@@ -1,12 +1,13 @@
 <template>
 	<ModalSlot
-		:model="initModal('modal')"
-		:title="modalTitle"
+		:model="ctx.initModal('modal')"
+		:title="ctx.modalTitle"
+		width="30%"
 		:close-on-click-modal="false"
 		@closed="closedModal"
 	>
 		<FormSlot
-			:model="initForm('form2')"
+			:model="ctx.initForm('form2')"
 			:rules="form2Rules"
 		>
 			<el-form-item label="姓名" prop="name">
@@ -17,24 +18,20 @@
 			</el-form-item>
 		</FormSlot>
 		<template #footer>
+			<el-button @click="ctx.closeModal('modal')">取消</el-button>
 			<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
-			<el-button @click="clearForm2">重置</el-button>
-			<el-button @click="closeModal('modal')">取消</el-button>
 		</template>
 	</ModalSlot>
 </template>
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { ElMessage } from 'element-plus'
 
 import { FormSlot, ModalSlot } from '@/wbv';
-import { addOrEditApi } from '@/api/mockData';
+import { addOrEditApi } from '@/api';
 /*  */
 const ctx = inject('ctx');
-const { initModal, initForm, closeModal, getFormSlotRef, refreshList } = ctx;
 /*  */
-const modalTitle = ref('创建');
 const submitButtonLoading = ref(false);
 const form2Rules = reactive({
 	name: [
@@ -48,30 +45,28 @@ const form2Rules = reactive({
 function closedModal() {
 	ctx.form2 = {};
 }
-function clearForm2() {
-	const form2Ref = getFormSlotRef('form2');
-	form2Ref.resetFields();
-}
 function submit() {
-	const form2Ref = getFormSlotRef('form2');
+	const form2Ref = ctx.getFormSlotRef('form2');
 	form2Ref.validate((valid, fields) => {
 		if (valid) {
 			submitButtonLoading.value = true;
 			addOrEditApi(ctx.form2).then(res => {
-				refreshList();
-				closeModal('modal');
-				submitButtonLoading.value = false;
-				if (ctx.form2.id) {
-					ElMessage({
-						type: 'success',
-						message: '修改成功',
-					});
-				} else {
-					ElMessage({
-						type: 'success',
-						message: '创建成功',
-					});
+				if (res.code == 200) {
+					ctx.refreshList();
+					ctx.closeModal('modal');
+					if (ctx.form2.id) {
+						$toast.success({
+							message: '修改成功',
+							duration: 2000,
+						});
+					} else {
+						$toast.success({
+							message: '创建成功',
+							duration: 2000,
+						});
+					}
 				}
+				submitButtonLoading.value = false;
 			});
 		}
 	})
