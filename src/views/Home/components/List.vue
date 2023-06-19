@@ -3,7 +3,7 @@
 		<ListSlot
 			:model="ctx.initList('list')"
 			:page-sizes="[10, 20, 30, 40]"
-			layout="slot, sizes, prev, pager, next"
+			layout="total, sizes, prev, pager, next"
 			:background="true"
 		>
 			<el-table :data="ctx.list" v-loading="ctx.model.listLoading">
@@ -25,9 +25,6 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<template #pagination>
-				分页
-			</template>
 		</ListSlot>
 	</div>
 </template>
