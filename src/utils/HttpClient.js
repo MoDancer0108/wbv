@@ -22,15 +22,9 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 		if (postobj.catchcallback) {
 			postobj.catchcallback.catch(res);
 		} else {
-			// hcvue.$message.error(res.msg);
 			console.log('============');
 			console.log(url);
 			console.log('============');
-			// uni.showToast({
-			// 	title:res.msg?res.msg:'系统走神了！',
-			// 	icon:'none',
-			// 	mask:false
-			// })
 		}
 	}
 };
@@ -91,7 +85,6 @@ HttpClient.prototype.post = function(url, params,isload) {
 		// 		if (postobj.catchcallback) {
 		// 			// postobj.catchcallback(err);
 		// 		} else {
-		// 			// hcvue.$message.error("网络异常");
 		// 		}
 		// 	},
 		// })
@@ -106,7 +99,6 @@ HttpClient.prototype.post = function(url, params,isload) {
             if (postobj.catchcallback) {
                 // postobj.catchcallback(err);
             } else {
-                // hcvue.$message.error("网络异常");
             }
             console.log(err);
         });

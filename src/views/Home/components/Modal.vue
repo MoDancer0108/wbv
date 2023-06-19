@@ -26,7 +26,6 @@
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { ElMessage } from 'element-plus'
 
 import { FormSlot, ModalSlot } from '@/wbv';
 import { addOrEditApi } from '@/api';
@@ -56,21 +55,18 @@ function submit() {
 					ctx.refreshList();
 					ctx.closeModal('modal');
 					if (ctx.form2.id) {
-						ElMessage({
-							type: 'success',
+						$toast.success({
 							message: '修改成功',
 							duration: 1000,
 						});
 					} else {
-						ElMessage({
-							type: 'success',
+						$toast.success({
 							message: '创建成功',
 							duration: 1000,
 						});
 					}
 				} else if (res.msg) {
-					ElMessage({
-						type: 'error',
+					$toast.error({
 						message: res.msg,
 						duration: 1000,
 					});

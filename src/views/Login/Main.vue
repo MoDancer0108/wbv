@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="main" @keydown.enter="isLogin ? login() : reg()">
 		<el-card class="login">
 			<img class="img" src="/favicon.ico" alt="">
 			<FormSlot
@@ -33,7 +33,6 @@
 
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
 import { useRouter } from "vue-router";
 
 import { FormSlot } from '@/wbv';
@@ -67,14 +66,12 @@ function reg() {
 				if (res.code ==200) {
 					isLogin.value = true;
 					ctx.form = {};
-					ElMessage({
-						type: 'success',
+					$toast.success({
 						message: '注册成功',
 						duration: 1000,
 					});
 				} else if (res.msg) {
-					ElMessage({
-						type: 'error',
+					$toast.error({
 						message: res.msg,
 						duration: 1000,
 					});
@@ -92,8 +89,7 @@ function login() {
 					setLocalData('userID', res.data);
 					router.push('/');
 				} else if (res.msg) {
-					ElMessage({
-						type: 'error',
+					$toast.error({
 						message: res.msg,
 						duration: 1000,
 					});
@@ -115,7 +111,7 @@ function validatePass(rule, value, callback) {
 onMounted(() => {
 	ctx.form = {
 		user: '123',
-		password:  '123',
+		password:  '1233',
 	};
 });
 </script>

@@ -16,6 +16,8 @@
 </template>
 
 <script setup>
+import { ElMessage, ElMessageBox } from 'element-plus';
+
 import { useStore } from "@/store/data";
 import * as utils from '@/utils';
 
@@ -23,8 +25,23 @@ const store = useStore();
 
 window.$data = store;
 window.$utils = utils;
+window.$toast = ElMessage;
+window.$alert = params => {
+  return ElMessageBox.alert(params.message, params.title, params)
+};
+window.$confirm = params => {
+  return ElMessageBox.confirm(params.message, params.title, params)
+};
+window.$prompt = params => {
+  return ElMessageBox.prompt(params.message, params.title, params)
+};
 
-console.log('%cwindow', 'color: #43bb88;', '$data', '$utils')
+console.log('%cwindow', 'color: #43bb88;', [
+  '$data',
+  '$utils',
+  '$toast',
+  ['$alert', '$confirm', '$prompt'],
+]);
 </script>
 
 <style lang="scss">
@@ -32,25 +49,5 @@ console.log('%cwindow', 'color: #43bb88;', '$data', '$utils')
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
-  color: #2c3e50;
-	// overflow: hidden;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
-button {
-  margin: 4px;
 }
 </style>

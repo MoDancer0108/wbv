@@ -1,5 +1,4 @@
 
-import { ElMessage } from 'element-plus';
 import { getListApi } from '@/api';
 
 export default {
@@ -22,8 +21,7 @@ export default {
                 data: res.data.data,
             };
         } else if (res.msg) {
-            ElMessage({
-                type: 'error',
+            $toast.error({
                 message: res.msg,
                 duration: 1000,
             });
