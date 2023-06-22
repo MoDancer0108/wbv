@@ -3,19 +3,22 @@
 		<el-menu
 		  :default-active="defaultActive"
 		  :unique-opened="true"
-		  :router="true"
 		>
-		  <el-sub-menu index="/views">
+		  <el-sub-menu
+			v-for="item in menus"
+			:key="item.value"
+			:index="item.value"
+		  >
 			<template #title>
-			  <span>views</span>
+			  <span>{{ item.label }}</span>
 			</template>
 			<el-menu-item
-				v-for="item in menus"
-				:key="item.value"
-				:index="item.value"
+				v-for="item2 in item.children"
+				:key="item2.value"
+				:index="item2.value"
 				@click="clickmenu"
 			>
-				{{ item.name }}
+				{{ item2.label }}
 			</el-menu-item>
 		  </el-sub-menu>
 		</el-menu>
@@ -25,26 +28,18 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useRouter } from "vue-router";
+
+import { menus } from '@/router/router';
 //
 const router = useRouter();
 const currentRoute = router.currentRoute._value.matched[1];
-// console.log('currentRoute', currentRoute);
+console.log('currentRoute', currentRoute);
 //
-const menus = reactive([
-	{
-		name: 'Home',
-		value: '/home',
-	},
-	{
-		name: 'Home2',
-		value: '/home2',
-	},
-])
-const defaultActive = ref(currentRoute.path || menus[0]?.value);
+const defaultActive = ref(currentRoute.path);
 //
 function clickmenu(e) {
 	console.log(e);
-	// router.push(e.index);
+	router.push(e.index);
 }
 </script>
 

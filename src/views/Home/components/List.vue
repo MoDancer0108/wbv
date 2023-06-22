@@ -1,11 +1,15 @@
 <template>
 	<div class="list">
 		<ListSlot
-			:page-sizes="[3, 10, 30, 40]"
+			:page-sizes="[5, 10, 30, 40]"
 			layout="total, sizes, prev, pager, next"
 			:background="true"
 		>
-			<el-table :data="ctx.list" v-loading="ctx.model.listLoading">
+			<el-table
+				:data="ctx.list"
+				v-loading="ctx.model.listLoading"
+				:max-height="400"
+			>
 				<el-table-column prop="updateDate" label="修改日期" width="200">
 					<template #default="{ row }">
 						{{ getTime(row.updateDate) }}

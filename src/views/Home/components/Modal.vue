@@ -44,6 +44,8 @@ const form2Rules = reactive({
 /*  */
 function closedModal() {
 	ctx.form2 = {};
+	const form2Ref = ctx.getFormSlotRef('form2');
+	form2Ref.resetFields();
 }
 function submit() {
 	const form2Ref = ctx.getFormSlotRef('form2');

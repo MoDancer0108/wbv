@@ -1,11 +1,11 @@
-import { ref, reactive, computed } from 'vue';
+import { ref } from 'vue';
 
 export default ctx => {
 	const listLoading = ref(false);
-	const modalTitle = ref('');
+	const isAdd = ref(true);
 	
 	return {
 		listLoading,
-		modalTitle,
+		isAdd,
 	};
 };

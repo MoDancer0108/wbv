@@ -1,17 +1,17 @@
 <template>
 	<div class="head">
 		<FormSlot
-			:model="ctx.initForm('form1')"
+			:model="ctx.initForm('srhForm')"
 			:inline="true"
 		>
-			<el-form-item prop="name">
-				<el-input class="srhName" v-model="ctx.form1.name" placeholder="按姓名搜索"></el-input>
+			<el-form-item>
+				<el-input class="srh" v-model="ctx.srhForm.user" placeholder="按账号搜索"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button @click="clearForm1">重置</el-button>
+				<el-button @click="clearsrhForm">重置</el-button>
 			</el-form-item>
 			<el-form-item>
-				<el-button @click="ctx.refreshList('list')">搜索</el-button>
+				<el-button @click="ctx.refreshList()">搜索</el-button>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="add">新增</el-button>
@@ -29,19 +29,20 @@ const ctx = inject('ctx');
 /*  */
 /*  */
 function add() {
-	ctx.modalTitle = '创建';
+	ctx.model.isAdd = true;
 	ctx.showModal('modal');
 }
-function clearForm1() {
-	const form1Ref = ctx.getFormSlotRef('form1');
-	form1Ref.resetFields();
-	ctx.refreshList('list');
+function clearsrhForm() {
+	const srhFormRef = ctx.getFormSlotRef('srhForm');
+	ctx.srhForm = {};
+	srhFormRef.resetFields();
+	ctx.refreshList();
 }
 /*  */
 </script>
 
 <style scoped lang="scss">
-.srhName {
+.srh {
 	width: 200px;
 }
 </style>

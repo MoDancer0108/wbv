@@ -6,6 +6,7 @@ var mongodb =require("mongodb");
 
 var ObjectId = mongodb.ObjectId;
 
+// login
 
 router.post('/reg', function(req, res, next) {
 	const {
@@ -57,6 +58,43 @@ router.post('/login', function(req, res, next) {
 		}
 	})
 });
+
+// userList
+
+router.post("/userList/getlist", function(req,res) {
+	const {
+		user,
+		currentPage,
+		pageSize,
+	} = req.body;
+	const obj ={
+		currentPage,
+		pageSize,
+	}
+	if (user) obj.user = user;
+	mongo("findList", "userList", obj, function(data) {
+		res.send({
+			code: 200,
+			data,
+		});
+	})
+});
+
+
+// router.post("/userList/del",function(req,res){
+// 	mongo("del", "userList", {
+// 		id: req.body.id,
+// 	}, function(data) {
+// 		if(data.result.n == 1){
+// 			res.send({ code: 200 });
+// 		}else{
+// 			res.send({ code: -1 });
+// 		}
+// 	})
+// })
+
+
+// home
 
 router.post("/home/update", function(req, res) {
 	const {

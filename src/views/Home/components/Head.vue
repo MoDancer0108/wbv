@@ -4,8 +4,8 @@
 			:model="ctx.initForm('form1')"
 			:inline="true"
 		>
-			<el-form-item prop="name">
-				<el-input class="srhName" v-model="ctx.form1.name" placeholder="按姓名搜索"></el-input>
+			<el-form-item>
+				<el-input class="srh" v-model="ctx.form1.name" placeholder="按姓名搜索"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button @click="clearForm1">重置</el-button>
@@ -34,6 +34,7 @@ function add() {
 }
 function clearForm1() {
 	const form1Ref = ctx.getFormSlotRef('form1');
+	ctx.form1 = {};
 	form1Ref.resetFields();
 	ctx.refreshList();
 }
@@ -41,7 +42,7 @@ function clearForm1() {
 </script>
 
 <style scoped lang="scss">
-.srhName {
+.srh {
 	width: 200px;
 }
 </style>
