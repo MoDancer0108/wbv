@@ -35,6 +35,10 @@ const menus = reactive([
 		name: 'Home',
 		value: '/home',
 	},
+	{
+		name: 'Home2',
+		value: '/home2',
+	},
 ])
 const defaultActive = ref(currentRoute.path || menus[0]?.value);
 //

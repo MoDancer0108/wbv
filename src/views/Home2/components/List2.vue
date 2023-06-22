@@ -1,11 +1,12 @@
 <template>
 	<div class="list">
 		<ListSlot
+			:model="ctx.initList('list2')"
 			:page-sizes="[3, 10, 30, 40]"
 			layout="total, sizes, prev, pager, next"
 			:background="true"
 		>
-			<el-table :data="ctx.list" v-loading="ctx.model.listLoading">
+			<el-table :data="ctx.list2" v-loading="ctx.model.listLoading">
 				<el-table-column prop="updateDate" label="修改日期" width="200">
 					<template #default="{ row }">
 						{{ getTime(row.updateDate) }}
@@ -50,7 +51,7 @@ function del(row) {
 				instance.confirmButtonLoading = true;
 				delApi(row.id).then(res => {
 					if (res.code == 200) {
-						ctx.refreshList();
+						ctx.refreshList('list2');
 					}
 					done();
 				});

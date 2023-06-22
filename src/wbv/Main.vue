@@ -23,8 +23,10 @@ const ctx = reactive({
 	initList,
 	getListSlotRef,
 	_listRefs: {},
-	// refreshList,
-	// list,
+	_getList: {},
+	refreshList(slotName) {
+		return ctx._getList[slotName || 'list']();
+	},
 
 	initModal,
 	showModal,
@@ -55,7 +57,10 @@ function getFormSlotRef(slotName) {
 }
 
 function initList(listName) {
-	return [null, listName];
+	if (ctx[listName] == undefined) {
+		ctx[listName] = [];
+	}
+	return [ctx[listName], listName];
 }
 function getListSlotRef(slotName) {
 	if (ctx._listRefs[slotName] == undefined) {

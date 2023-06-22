@@ -1,6 +1,7 @@
 <template>
 	<div class="list">
 		<ListSlot
+			:model="ctx.initList('list')"
 			:page-sizes="[3, 10, 30, 40]"
 			layout="total, sizes, prev, pager, next"
 			:background="true"
@@ -50,7 +51,7 @@ function del(row) {
 				instance.confirmButtonLoading = true;
 				delApi(row.id).then(res => {
 					if (res.code == 200) {
-						ctx.refreshList();
+						ctx.refreshList('list');
 					}
 					done();
 				});
