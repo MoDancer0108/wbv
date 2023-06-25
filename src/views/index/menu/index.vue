@@ -4,23 +4,39 @@
 		  :default-active="defaultActive"
 		  :unique-opened="true"
 		>
-		  <el-sub-menu
-			v-for="item in menus"
-			:key="item.value"
-			:index="item.value"
-		  >
-			<template #title>
-			  <span>{{ item.label }}</span>
+			<template v-for="item in menus.filter(it=>!it.hidden)">
+				<el-sub-menu
+					v-if="item.children && item.children.length"
+					:key="item.path"
+					:index="item.path"
+				>
+					<template #title>
+						<el-icon>
+							<Menu></Menu>
+						</el-icon>
+						<span class="menu">{{ item.label }}</span>
+					</template>
+					<el-menu-item
+						v-for="item2 in item.children.filter(it=>!it.hidden)"
+						:key="`${item.path}/${item2.path}`"
+						:index="`${item.path}/${item2.path}`"
+						@click="clickmenu"
+					>
+						<span class="menu">{{ item2.label }}</span>
+					</el-menu-item>
+				</el-sub-menu>
+				<el-menu-item
+					v-if="!item.children || !item.children.length"
+					:key="item.path"
+					:index="item.path"
+					@click="clickmenu"
+				>
+					<el-icon>
+						<Menu></Menu>
+					</el-icon>
+					<span class="menu">{{ item.label }}</span>
+				</el-menu-item>
 			</template>
-			<el-menu-item
-				v-for="item2 in item.children"
-				:key="item2.value"
-				:index="item2.value"
-				@click="clickmenu"
-			>
-				{{ item2.label }}
-			</el-menu-item>
-		  </el-sub-menu>
 		</el-menu>
 	</el-row>
 </template>
@@ -28,17 +44,14 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useRouter } from "vue-router";
-
-import { menus } from '@/router/router';
 //
 const router = useRouter();
-const currentRoute = router.currentRoute._value.matched[1];
-console.log('currentRoute', currentRoute);
+const currentRoute = router.currentRoute.value.fullPath;
 //
-const defaultActive = ref(currentRoute.path);
+const defaultActive = ref(currentRoute);
+const menus = reactive($data.getData('menus'));
 //
 function clickmenu(e) {
-	console.log(e);
 	router.push(e.index);
 }
 </script>
@@ -48,6 +61,9 @@ function clickmenu(e) {
 	border-right: none;
 	.el-menu-item.is-active {
 		background-color: var(--el-menu-hover-bg-color);
+	}
+	.menu {
+		user-select: none;
 	}
 }
 </style>

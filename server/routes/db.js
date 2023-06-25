@@ -62,7 +62,10 @@ var find = function(client, collection, selector, callback) {
 	collection.find(selector).toArray(function(err, reslult) {
 		if (err) throw err;
 		console.log('查询成功');
-		callback(reslult)
+		callback(reslult.map(it => {
+			const { _id, ...item } = it;
+			return { ...item, id: _id };
+		}));
 		client.close();
 	})
 }

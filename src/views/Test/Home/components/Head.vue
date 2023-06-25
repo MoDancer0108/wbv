@@ -1,13 +1,13 @@
 <template>
 	<FormSlot
-		:model="ctx.initForm('srhForm')"
+		:model="ctx.initForm('form1')"
 		:inline="true"
 	>
 		<el-form-item>
-			<el-input class="srh" v-model="ctx.srhForm.user" placeholder="按账号搜索"></el-input>
+			<el-input class="srh" v-model="ctx.form1.name" placeholder="按姓名搜索"></el-input>
 		</el-form-item>
 		<el-form-item>
-			<el-button @click="clearsrhForm">重置</el-button>
+			<el-button @click="clearForm1">重置</el-button>
 		</el-form-item>
 		<el-form-item>
 			<el-button @click="ctx.refreshList()">搜索</el-button>
@@ -27,13 +27,13 @@ const ctx = inject('ctx');
 /*  */
 /*  */
 function add() {
-	ctx.model.isAdd = true;
+	ctx.modalTitle = '创建';
 	ctx.showModal('modal');
 }
-function clearsrhForm() {
-	const srhFormRef = ctx.getFormSlotRef('srhForm');
-	ctx.srhForm = {};
-	srhFormRef.resetFields();
+function clearForm1() {
+	const form1Ref = ctx.getFormSlotRef('form1');
+	ctx.form1 = {};
+	form1Ref.resetFields();
 	ctx.refreshList();
 }
 /*  */

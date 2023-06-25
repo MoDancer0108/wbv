@@ -19,11 +19,11 @@
 				<div class="btns">
 					<template v-if="isLogin">
 						<el-button @click="toggle">注册账号</el-button>
-						<el-button type="primary" @click="login">登录</el-button>
+						<el-button type="primary" @click="login" :loading="submitBtnLoading">登录</el-button>
 					</template>
 					<template v-else>
 						<el-button @click="toggle">去登录</el-button>
-						<el-button type="primary" @click="reg">注册</el-button>
+						<el-button type="primary" @click="reg" :loading="submitBtnLoading">注册</el-button>
 					</template>
 				</div>
 			</FormSlot>
@@ -42,6 +42,7 @@ const ctx = inject('ctx');
 const router = useRouter();
 /*  */
 const isLogin = ref(true);
+const submitBtnLoading = ref(false);
 const formRules = reactive({
 	user: [
 		{ required: true, message: '请输入账号', trigger: 'blur' },
@@ -61,8 +62,10 @@ function reg() {
 	const formRef = ctx.getFormSlotRef('form');
 	formRef.validate((valid, fields) => {
 		if (valid) {
+			submitBtnLoading.value = true;
 			regApi(ctx.form).then(res => {
 				if (res.code == 200) {
+					submitBtnLoading.value = false;
 					isLogin.value = true;
 					ctx.form = {};
 					$toast.success({
@@ -78,8 +81,10 @@ function login() {
 	const formRef = ctx.getFormSlotRef('form');
 	formRef.validate((valid, fields) => {
 		if (valid) {
+			submitBtnLoading.value = true;
 			loginApi(ctx.form).then(res => {
 				if (res.code == 200) {
+					submitBtnLoading.value = false;
 					$data.setLocalData('userID', res.data);
 					router.push('/');
 				}

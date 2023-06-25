@@ -79,6 +79,9 @@ function initModal(modalName) {
 </script>
 
 <style scoped lang="scss">
+.wbv {
+	height: 100%;
+}
 .dialog {
 	:deep(.el-dialog__footer) {
 		padding-top: 0;

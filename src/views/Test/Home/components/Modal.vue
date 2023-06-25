@@ -19,7 +19,7 @@
 		</FormSlot>
 		<template #footer>
 			<el-button @click="ctx.closeModal('modal')">取消</el-button>
-			<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
+			<el-button type="primary" @click="submit" :loading="submitBtnLoading">确定</el-button>
 		</template>
 	</ModalSlot>
 </template>
@@ -32,7 +32,7 @@ import { addOrEditApi } from '@/api';
 /*  */
 const ctx = inject('ctx');
 /*  */
-const submitButtonLoading = ref(false);
+const submitBtnLoading = ref(false);
 const form2Rules = reactive({
 	name: [
 		{ required: true, message: '请输入姓名', trigger: 'blur' },
@@ -51,7 +51,7 @@ function submit() {
 	const form2Ref = ctx.getFormSlotRef('form2');
 	form2Ref.validate((valid, fields) => {
 		if (valid) {
-			submitButtonLoading.value = true;
+			submitBtnLoading.value = true;
 			addOrEditApi(ctx.form2).then(res => {
 				if (res.code == 200) {
 					ctx.refreshList();
@@ -68,7 +68,7 @@ function submit() {
 						});
 					}
 				}
-				submitButtonLoading.value = false;
+				submitBtnLoading.value = false;
 			});
 		}
 	})

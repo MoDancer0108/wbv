@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, hasNecessaryRoute } from 'vue-router';
 
-import { menus } from './router';
+import { getRouterListApi } from '@/api/router';
 
 const routes = [
   {
@@ -40,7 +40,7 @@ const routes = [
     path: '/',
     redirect: '/test/home',
     name: 'Index',
-    component: () => import('../views/index/index.vue'),
+    component: () => import('../views/Index/index.vue'),
     children: [],
   },
   {
@@ -54,27 +54,42 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
   // 添加路由
-  const routes = $data.getData('routes');
-  if (!routes || !routes.length) {
-    const addRoutes = []
-    menus.forEach(item => {
-      if (item.children && item.children.length) {
-        addRoutes.push(...item.children.map(menu => ({
-          path: menu.value,
-          name: menu.name,
-          // import中至少得有个@/字符串
-          component: () => import('@/' + menu.url.split('@/')[1]),
-        })));
-      }
-    });
-    $data.setData('routes', addRoutes);
-    addRoutes.forEach(item => {
-      router.addRoute('Index', item)
-    });
-    // 添加后需要重定向一下
-    return to.fullPath;
+  if (!$data.getData('menus') || !$data.getData('menus').length) {
+    const res = await getRouterListApi();
+    if (res.code == 200) {
+      const menus = res.data.filter(item =>
+        item.label &&
+        item.name &&
+        item.path &&
+        item.url
+      );
+      $data.setData('menus', menus);
+      const addRoutes = menus.map(item => {
+        if (item.children && item.children.length) {
+          return {
+            ...item,
+            component: () => import('@/' + item.url.split('@/')[1]),
+            children: item.children.map(menu => ({
+              ...menu,
+              // import中至少得有个@/字符串
+              component: () => import('@/' + menu.url.split('@/')[1]),
+            })),
+          };
+        } else {
+          return {
+            ...item,
+            component: () => import('@/' + item.url.split('@/')[1]),
+          };
+        }
+      });
+      addRoutes.forEach(item => {
+        router.addRoute('Index', item)
+      });
+      // 添加后需要重定向一下
+      return to.fullPath;
+    }
   }
 
   const isLogin = $data.getLocalData('userID');

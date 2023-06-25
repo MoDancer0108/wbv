@@ -24,7 +24,7 @@
 		<template #footer>
 			<template v-if="ctx.model.isAdd">
 				<el-button @click="ctx.closeModal('modal')">取消</el-button>
-				<el-button type="primary" @click="submit" :loading="submitButtonLoading">确定</el-button>
+				<el-button type="primary" @click="submit" :loading="submitBtnLoading">确定</el-button>
 			</template>
 			<template v-else>
 				<el-button type="primary" @click="ctx.closeModal('modal')">确定</el-button>
@@ -41,7 +41,7 @@ import { regApi } from '@/api/login';
 /*  */
 const ctx = inject('ctx');
 /*  */
-const submitButtonLoading = ref(false);
+const submitBtnLoading = ref(false);
 const submitFormRules = reactive({
 	user: [
 		{ required: true, message: '请输入账号', trigger: 'blur' },
@@ -63,7 +63,7 @@ function submit() {
 	const submitFormRef = ctx.getFormSlotRef('submitForm');
 	submitFormRef.validate((valid, fields) => {
 		if (valid) {
-			submitButtonLoading.value = true;
+			submitBtnLoading.value = true;
 			regApi(ctx.submitForm).then(res => {
 				if (res.code == 200) {
 					ctx.refreshList();
@@ -73,7 +73,7 @@ function submit() {
 						duration: 2000,
 					});
 				}
-				submitButtonLoading.value = false;
+				submitBtnLoading.value = false;
 			});
 		}
 	})

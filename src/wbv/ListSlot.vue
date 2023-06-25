@@ -2,6 +2,7 @@
 	<div class="listSlot">
 		<slot></slot>
 		<el-pagination
+			v-if="Array.isArray(props.pageSizes)"
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
 			:total="total"
@@ -33,7 +34,7 @@ const props = defineProps([
 const slotName = props.model ? (props.model[1] || 'list') : 'list'
 /*  */
 const currentPage = ref(1);
-const pageSize = ref(props.pageSizes[0]);
+const pageSize = ref(props.pageSizes ? props.pageSizes[0] : 10);
 const total = ref(0);
 
 ctx._listRefs[slotName] = computed(() => ({

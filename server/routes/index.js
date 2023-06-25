@@ -21,15 +21,19 @@ router.post('/reg', function(req, res, next) {
 		user,
 	}, function(data) {
 		if (data.length) {
+			setTimeout(() => {
 				res.send({
 					code: -1,
 					msg: '账号已存在!',
 				});
+			}, 1000);
 		} else {
 			mongo("add", "userList", obj, function(data2) {
-				res.send({
-					code: 200,
-				});
+				setTimeout(() => {
+					res.send({
+						code: 200,
+					});
+				}, 1000);
 			})
 		}
 	})
@@ -46,53 +50,22 @@ router.post('/login', function(req, res, next) {
 	};
 	mongo("find", "userList", obj, function(data) {
 		if (data.length) {
+			setTimeout(() => {
 				res.send({
 					code: 200,
 					data: data[0]._id,
 				});
+			}, 1000);
 		} else {
-			res.send({
-				code: -1,
-				msg: '账号密码不正确!',
-			});
+			setTimeout(() => {
+				res.send({
+					code: -1,
+					msg: '账号密码不正确!',
+				});
+			}, 1000);
 		}
 	})
 });
-
-// userList
-
-router.post("/userList/getlist", function(req,res) {
-	const {
-		user,
-		currentPage,
-		pageSize,
-	} = req.body;
-	const obj ={
-		currentPage,
-		pageSize,
-	}
-	if (user) obj.user = user;
-	mongo("findList", "userList", obj, function(data) {
-		res.send({
-			code: 200,
-			data,
-		});
-	})
-});
-
-
-// router.post("/userList/del",function(req,res){
-// 	mongo("del", "userList", {
-// 		id: req.body.id,
-// 	}, function(data) {
-// 		if(data.result.n == 1){
-// 			res.send({ code: 200 });
-// 		}else{
-// 			res.send({ code: -1 });
-// 		}
-// 	})
-// })
-
 
 // home
 
