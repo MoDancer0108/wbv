@@ -91,13 +91,13 @@ function login() {
 	})
 }
 function validatePass(rule, value, callback) {
-  if (value == '') {
-    callback(new Error('请再次输入密码'))
-  } else if (value !== ctx.form.password) {
-    callback(new Error("两次输入密码不一致"))
-  } else {
-    callback()
-  }
+	if (value == '') {
+		callback(new Error('请再次输入密码'));
+	} else if (value !== ctx.form.password) {
+		callback(new Error("两次输入密码不一致"));
+	} else {
+		callback();
+	}
 }
 
 onMounted(() => {

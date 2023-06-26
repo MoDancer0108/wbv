@@ -53,9 +53,9 @@ const submitFormRules = reactive({
 });
 
 function closedModal() {
-	ctx.submitForm = {};
 	const submitFormRef = ctx.getFormSlotRef('submitForm');
 	submitFormRef.resetFields();
+	ctx.submitForm = {};
 }
 function submit() {
 	const submitFormRef = ctx.getFormSlotRef('submitForm');

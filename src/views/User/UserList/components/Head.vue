@@ -30,8 +30,8 @@ function add() {
 }
 function clearsrhForm() {
 	const srhFormRef = ctx.getFormSlotRef('srhForm');
-	ctx.srhForm = {};
 	srhFormRef.resetFields();
+	ctx.srhForm = {};
 	ctx.refreshList();
 }
 </script>

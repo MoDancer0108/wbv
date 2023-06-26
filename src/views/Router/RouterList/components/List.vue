@@ -3,7 +3,7 @@
 		<div class="flex">
 			<div class="tree">
 				<div class="head">
-					<el-button type="primary" @click="append()">新增</el-button>
+					<el-button type="primary" @click="append()" :disabled="!!ctx.model.currentAddRouteID">新增</el-button>
 				</div>
 				<el-tree
 					:data="ctx.list"
@@ -30,20 +30,20 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
-
+import { inject, nextTick } from 'vue';
 import { ListSlot } from '@/wbv';
 import RouterDetail from './RouterDetail';
-/*  */
+
 const ctx = inject('ctx');
-/*  */
-/*  */
+
 function append(data) {
 	const newChild = {
 		label: '新菜单',
         name: 'Name',
         path: '/',
         url: '@/views/',
+		hidden: false,
+		order: 0,
 	};
 	if (data) {
 		if (!data.children) {
@@ -53,8 +53,14 @@ function append(data) {
 	} else {
 		ctx.list.push(newChild);
 	}
-	ctx.submitForm = newChild;
-	ctx.list = [...ctx.list];
+	// 清空form
+	const submitFormRef = ctx.getFormSlotRef('submitForm');
+	submitFormRef.resetFields();
+	ctx.submitForm = { ...newChild };
+	nextTick(() => {
+		ctx.model.currentRouteId = newChild.$treeNodeId;
+		ctx.model.currentAddRouteID = newChild.$treeNodeId;
+	});
 }
 function remove(data, node) {
 	$confirm({
@@ -68,9 +74,16 @@ function remove(data, node) {
 				instance.confirmButtonLoading = true;
 				const parent = node.parent;
 				const children = parent.data.children || parent.data;
-				const index = children.findIndex(it => it.name === data.name);
+				const index = children.findIndex(it => it.$treeNodeId === data.$treeNodeId);
 				children.splice(index, 1);
-				ctx.list = [...ctx.list];
+				// 清空form
+				const submitFormRef = ctx.getFormSlotRef('submitForm');
+				submitFormRef.resetFields();
+				ctx.submitForm = {};
+				ctx.model.currentRouteId = null;
+				if (data.$treeNodeId === ctx.model.currentAddRouteID) {
+					ctx.model.currentAddRouteID = null;
+				}
 				done();
 			} else {
 				done()
@@ -80,9 +93,8 @@ function remove(data, node) {
 }
 function view(data, node) {
 	ctx.model.currentRouteId = data.$treeNodeId;
-	ctx.submitForm = data;
+	ctx.submitForm = { ...data };
 }
-/*  */
 </script>
 
 <style scoped lang="scss">

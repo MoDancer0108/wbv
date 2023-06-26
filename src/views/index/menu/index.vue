@@ -4,7 +4,7 @@
 		  :default-active="defaultActive"
 		  :unique-opened="true"
 		>
-			<template v-for="item in menus.filter(it=>!it.hidden)">
+			<template v-for="item in menus.filter(it=>!it.hidden).sort((a, b)=>a.order-b.order)">
 				<el-sub-menu
 					v-if="item.children && item.children.length"
 					:key="item.path"
@@ -17,7 +17,7 @@
 						<span class="menu">{{ item.label }}</span>
 					</template>
 					<el-menu-item
-						v-for="item2 in item.children.filter(it=>!it.hidden)"
+						v-for="item2 in item.children.filter(it=>!it.hidden).sort((a, b)=>a.order-b.order)"
 						:key="`${item.path}/${item2.path}`"
 						:index="`${item.path}/${item2.path}`"
 						@click="clickmenu"

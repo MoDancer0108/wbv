@@ -50,10 +50,11 @@ router.post('/login', function(req, res, next) {
 	};
 	mongo("find", "userList", obj, function(data) {
 		if (data.length) {
+			console.log(data)
 			setTimeout(() => {
 				res.send({
 					code: 200,
-					data: data[0]._id,
+					data: data[0].id,
 				});
 			}, 1000);
 		} else {
