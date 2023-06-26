@@ -35,12 +35,10 @@
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-
 import { FormSlot, ModalSlot } from '@/wbv';
 import { regApi } from '@/api/login';
-/*  */
+
 const ctx = inject('ctx');
-/*  */
 const submitBtnLoading = ref(false);
 const submitFormRules = reactive({
 	user: [
@@ -53,7 +51,7 @@ const submitFormRules = reactive({
 		{ required: true, validator: validatePass, trigger: 'blur' },
 	],
 });
-/*  */
+
 function closedModal() {
 	ctx.submitForm = {};
 	const submitFormRef = ctx.getFormSlotRef('submitForm');
@@ -87,9 +85,4 @@ function validatePass(rule, value, callback) {
     callback()
   }
 }
-/*  */
 </script>
-
-<style scoped lang="scss">
-	
-</style>

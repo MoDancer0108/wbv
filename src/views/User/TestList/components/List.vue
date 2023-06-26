@@ -32,14 +32,12 @@
 
 <script setup>
 import { inject } from 'vue';
-
 import { ListSlot } from '@/wbv';
-import { delApi } from '@/api';
+import { delTestApi } from '@/api/user';
+
 const { getTime } = $utils;
-/*  */
 const ctx = inject('ctx');
-/*  */
-/*  */
+
 function del(row) {
 	$confirm({
 		title: '提示',
@@ -50,7 +48,7 @@ function del(row) {
 		beforeClose: (action, instance, done) => {
 			if (action === 'confirm') {
 				instance.confirmButtonLoading = true;
-				delApi(row.id).then(res => {
+				delTestApi(row.id).then(res => {
 					if (res.code == 200) {
 						ctx.refreshList();
 					}
@@ -72,9 +70,4 @@ function edit(row) {
 	ctx.form2 = {...row};
 	ctx.showModal('modal');
 }
-/*  */
 </script>
-
-<style scoped lang="scss">
-	
-</style>

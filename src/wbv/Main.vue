@@ -5,16 +5,12 @@
 </template>
 
 <script setup>
-import {
-	reactive,
-	provide
-} from 'vue'
-/*  */
+import { reactive, provide } from 'vue'
+
 const props = defineProps([
 	'listConfig',
 	'model',
 ]);
-/*  */
 const ctx = reactive({
 	initForm,
 	getFormSlotRef,
@@ -35,14 +31,13 @@ const ctx = reactive({
 ctx.model = props.model && props.model instanceof Function && props.model(ctx);
 provide('ctx', ctx);
 provide('listConfig', props.listConfig);
-/*  */
+
 function showModal(dialogName) {
 	ctx[dialogName] = true;
 }
 function closeModal(dialogName) {
 	ctx[dialogName] = false;
 }
-
 function initForm(formName) {
 	if (ctx[formName] == undefined) {
 		ctx[formName] = {};
@@ -55,7 +50,6 @@ function getFormSlotRef(slotName) {
 	}
 	return ctx._formRefs[slotName];
 }
-
 function initList(listName) {
 	if (ctx[listName] == undefined) {
 		ctx[listName] = [];
@@ -68,14 +62,12 @@ function getListSlotRef(slotName) {
 	}
 	return ctx._listRefs[slotName];
 }
-
 function initModal(modalName) {
 	if (ctx[modalName] == undefined) {
 		ctx[modalName] = false;
 	}
 	return [ctx[modalName], modalName];
 }
-/*  */
 </script>
 
 <style scoped lang="scss">

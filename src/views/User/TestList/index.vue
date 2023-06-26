@@ -14,6 +14,3 @@ import Head from './components/Head';
 import List from './components/List';
 import Modal from './components/Modal';
 </script>
-
-<style scoped lang="scss">
-</style>

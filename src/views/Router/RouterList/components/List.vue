@@ -11,26 +11,14 @@
 					default-expand-all
 					:expand-on-click-node="false"
 					v-loading="ctx.model.listLoading"
+					@node-click="view"
 				>
 					<template #default="{ node, data }">
 						<div class="treeItem">
 							<div>{{ node.label }}</div>
 							<div>
-								<el-button
-									v-if="Array.isArray(data.children)"
-									type="primary"
-									link
-									@click="append(data)"
-								>
-									新增
-								</el-button>
-								<el-button
-									type="danger"
-									link
-									@click="remove(node, data)"
-								>
-									删除
-								</el-button>
+								<el-button v-if="Array.isArray(data.children)" type="primary" link @click="append(data)">新增</el-button>
+								<el-button type="danger" link @click="remove(data, node)">删除</el-button>
 							</div>
 						</div>
 					</template>
@@ -53,6 +41,9 @@ const ctx = inject('ctx');
 function append(data) {
 	const newChild = {
 		label: '新菜单',
+        name: 'Name',
+        path: '/',
+        url: '@/views/',
 	};
 	if (data) {
 		if (!data.children) {
@@ -62,9 +53,10 @@ function append(data) {
 	} else {
 		ctx.list.push(newChild);
 	}
+	ctx.submitForm = newChild;
 	ctx.list = [...ctx.list];
 }
-function remove(node, data) {
+function remove(data, node) {
 	$confirm({
 		title: '提示',
 		message: '确认删除?',
@@ -86,6 +78,10 @@ function remove(node, data) {
 		},
 	}).then(() => {}).catch(() => {});
 }
+function view(data, node) {
+	ctx.model.currentRouteId = data.$treeNodeId;
+	ctx.submitForm = data;
+}
 /*  */
 </script>
 
@@ -97,7 +93,7 @@ function remove(node, data) {
 	display: flex;
 	height: 100%;
 	.tree {
-		width: 30%;
+		width: 36%;
 		height: 100%;
 		border-right: solid 1px #ccc;
 		margin-right: 12px;

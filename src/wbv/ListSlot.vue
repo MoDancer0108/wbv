@@ -6,7 +6,6 @@
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
 			:total="total"
-
 			v-bind="$attrs"
 			:page-sizes="props.pageSizes"
 		>
@@ -16,34 +15,25 @@
 </template>
 
 <script setup>
-import {
-	ref,
-	computed,
-	watch,
-	onMounted,
-	inject
-} from 'vue';
-/*  */
+import { ref, computed, watch, onMounted, inject } from 'vue';
+
 const listConfig = inject('listConfig');
 const ctx = inject('ctx');
 const props = defineProps([
 	'model',
-	
 	'pageSizes'
 ]);
 const slotName = props.model ? (props.model[1] || 'list') : 'list'
-/*  */
 const currentPage = ref(1);
 const pageSize = ref(props.pageSizes ? props.pageSizes[0] : 10);
 const total = ref(0);
-
 ctx._listRefs[slotName] = computed(() => ({
 	currentPage: currentPage.value,
 	setCurrentPage: e => currentPage.value = e,
 	pageSize: pageSize.value,
 	setPageSize: e => pageSize.value = e,
 }));
-/*  */
+
 function getList() {
 	let _getList;
 	if (listConfig instanceof Array) {
@@ -69,7 +59,7 @@ function getList() {
 	}
 }
 ctx._getList[slotName] = getList;
-/*  */
+
 watch(currentPage, (n, o) => {
 	getList();
 }, {

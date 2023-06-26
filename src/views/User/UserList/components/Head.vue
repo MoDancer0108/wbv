@@ -20,12 +20,10 @@
 
 <script setup>
 import { inject } from 'vue';
-
 import { FormSlot } from '@/wbv';
-/*  */
+
 const ctx = inject('ctx');
-/*  */
-/*  */
+
 function add() {
 	ctx.model.isAdd = true;
 	ctx.showModal('modal');
@@ -36,7 +34,6 @@ function clearsrhForm() {
 	srhFormRef.resetFields();
 	ctx.refreshList();
 }
-/*  */
 </script>
 
 <style scoped lang="scss">

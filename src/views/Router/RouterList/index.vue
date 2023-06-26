@@ -10,6 +10,3 @@ import listConfig from './listConfig';
 import model from './model';
 import List from './components/List';
 </script>
-
-<style scoped lang="scss">
-</style>

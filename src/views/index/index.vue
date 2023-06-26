@@ -16,9 +16,9 @@
 </template>
 
 <script setup>
-import { onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router';
 import menus from './menu/index.vue'
+
 const router = useRouter();
 
 function logOff() {

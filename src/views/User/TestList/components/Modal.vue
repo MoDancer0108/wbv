@@ -26,12 +26,10 @@
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-
 import { FormSlot, ModalSlot } from '@/wbv';
-import { addOrEditApi } from '@/api';
-/*  */
+import { updateTestApi } from '@/api/user';
+
 const ctx = inject('ctx');
-/*  */
 const submitBtnLoading = ref(false);
 const form2Rules = reactive({
 	name: [
@@ -41,7 +39,7 @@ const form2Rules = reactive({
 		{ required: true, message: '请输入城市', trigger: 'blur' },
 	],
 });
-/*  */
+
 function closedModal() {
 	ctx.form2 = {};
 	const form2Ref = ctx.getFormSlotRef('form2');
@@ -52,7 +50,7 @@ function submit() {
 	form2Ref.validate((valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
-			addOrEditApi(ctx.form2).then(res => {
+			updateTestApi(ctx.form2).then(res => {
 				if (res.code == 200) {
 					ctx.refreshList();
 					ctx.closeModal('modal');
@@ -73,9 +71,4 @@ function submit() {
 		}
 	})
 }
-/*  */
 </script>
-
-<style scoped lang="scss">
-	
-</style>

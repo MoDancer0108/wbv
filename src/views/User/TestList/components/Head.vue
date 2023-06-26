@@ -20,12 +20,10 @@
 
 <script setup>
 import { inject } from 'vue';
-
 import { FormSlot } from '@/wbv';
-/*  */
+
 const ctx = inject('ctx');
-/*  */
-/*  */
+
 function add() {
 	ctx.modalTitle = '创建';
 	ctx.showModal('modal');
@@ -36,7 +34,6 @@ function clearForm1() {
 	form1Ref.resetFields();
 	ctx.refreshList();
 }
-/*  */
 </script>
 
 <style scoped lang="scss">

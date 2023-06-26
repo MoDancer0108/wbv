@@ -29,22 +29,14 @@
 
 <script setup>
 import { inject } from 'vue';
-
 import { ListSlot } from '@/wbv';
-import { delApi } from '@/api';
+
 const { getTime } = $utils;
-/*  */
 const ctx = inject('ctx');
-/*  */
-/*  */
+
 function view(row) {
 	ctx.model.isAdd = false;
 	ctx.submitForm = {...row};
 	ctx.showModal('modal');
 }
-/*  */
 </script>
-
-<style scoped lang="scss">
-	
-</style>

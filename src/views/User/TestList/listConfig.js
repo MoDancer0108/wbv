@@ -1,5 +1,4 @@
-
-import { getListApi } from '@/api';
+import { getTestListApi } from '@/api/user';
 
 export default {
     async getList({
@@ -9,7 +8,7 @@ export default {
     }) {
         const { model } =ctx;
         model.listLoading = true;
-        const res = await getListApi({
+        const res = await getTestListApi({
             currentPage,
             pageSize,
             ...ctx.form1,

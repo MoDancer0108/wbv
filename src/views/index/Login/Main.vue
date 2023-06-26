@@ -34,13 +34,11 @@
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue';
 import { useRouter } from "vue-router";
-
 import { FormSlot } from '@/wbv';
 import { regApi, loginApi } from '@/api/login';
-/*  */
+
 const ctx = inject('ctx');
 const router = useRouter();
-/*  */
 const isLogin = ref(true);
 const submitBtnLoading = ref(false);
 const formRules = reactive({
@@ -54,7 +52,7 @@ const formRules = reactive({
 		{ validator: validatePass, trigger: 'blur' },
 	],
 });
-/*  */
+
 function toggle() {
 	isLogin.value = !isLogin.value;
 }
@@ -101,7 +99,7 @@ function validatePass(rule, value, callback) {
     callback()
   }
 }
-/*  */
+
 onMounted(() => {
 	ctx.form = {
 		user: '123',
