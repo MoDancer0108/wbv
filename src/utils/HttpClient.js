@@ -21,7 +21,6 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 		if (res.code != 200 && res.msg) {
             $toast.error({
                 message: res.msg,
-                duration: 2000,
             });
 		}
 	} else {
@@ -33,7 +32,6 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 			console.log('============');
             $toast.error({
                 message: '系统走神了!',
-                duration: 2000,
             });
 		}
 	}
@@ -47,17 +45,17 @@ HttpClient.prototype.post = function(url, params,isload) {
 	// 	loading=uni.showLoading({
 	// 		title:'数据加载中',
 	// 		mask:false,
-			
+
 	// 	})
 	// }
-	let headers={}  
+	let headers={}
 	//设置公共参数
 	// if(this.datamanager)
 	// {
 	// 	let token = this.datamanager.getData("SYS_Token")?this.datamanager.getData("SYS_Token"):uni.getStorageSync("SYS_Token");
 	// 	headers.token = token;
 	// }
-	
+
 	//设置公共参数
 	let postobj = {};
 	postobj.then = function(fun) {

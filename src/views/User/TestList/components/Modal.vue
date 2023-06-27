@@ -47,27 +47,27 @@ function closedModal() {
 }
 function submit() {
 	const form2Ref = ctx.getFormSlotRef('form2');
-	form2Ref.validate((valid, fields) => {
+	form2Ref.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
-			updateTestApi(ctx.form2).then(res => {
+			try {
+				const res =await updateTestApi(ctx.form2);
 				if (res.code == 200) {
 					ctx.refreshList();
 					ctx.closeModal('modal');
 					if (ctx.form2.id) {
 						$toast.success({
 							message: '修改成功',
-							duration: 2000,
 						});
 					} else {
 						$toast.success({
 							message: '创建成功',
-							duration: 2000,
 						});
 					}
 				}
+			} finally {
 				submitBtnLoading.value = false;
-			});
+			}
 		}
 	})
 }

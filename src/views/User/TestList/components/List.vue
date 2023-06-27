@@ -38,32 +38,33 @@ import { delTestApi } from '@/api/user';
 const { getTime } = $utils;
 const ctx = inject('ctx');
 
-function del(row) {
-	$confirm({
-		title: '提示',
-		message: '确认删除?',
-		confirmButtonText: '确定',
-		cancelButtonText: '取消',
-		type: 'warning',
-		beforeClose: (action, instance, done) => {
-			if (action === 'confirm') {
-				instance.confirmButtonLoading = true;
-				delTestApi(row.id).then(res => {
+async function del(row) {
+	try {
+		const res = await $confirm({
+			title: '提示',
+			message: '确认删除?',
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'warning',
+			beforeClose: async (action, instance, done) => {
+				if (action == 'confirm') {
+					instance.confirmButtonLoading = true;
+					const res = await delTestApi(row.id);
 					if (res.code == 200) {
 						ctx.refreshList();
 					}
 					done();
-				});
-			} else {
-				done()
-			}
-		},
-	}).then(() => {
-		$toast.success({
-			message: '删除成功',
-			duration: 2000,
+				} else {
+					done()
+				}
+			},
 		});
-	}).catch(() => {});
+		if (res == 'confirm') {
+			$toast.success({
+				message: '删除成功',
+			});
+		}
+	} catch(err) {}
 }
 function edit(row) {
 	ctx.modalTitle = '编辑';

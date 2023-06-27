@@ -58,35 +58,38 @@ function toggle() {
 }
 function reg() {
 	const formRef = ctx.getFormSlotRef('form');
-	formRef.validate((valid, fields) => {
+	formRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
-			regApi(ctx.form).then(res => {
+			try {
+				const res = await regApi(ctx.form);
 				if (res.code == 200) {
-					submitBtnLoading.value = false;
 					isLogin.value = true;
 					ctx.form = {};
 					$toast.success({
 						message: '注册成功',
-						duration: 2000,
 					});
 				}
-			});
+			} finally {
+				submitBtnLoading.value = false;
+			}
 		}
 	})
 }
 function login() {
 	const formRef = ctx.getFormSlotRef('form');
-	formRef.validate((valid, fields) => {
+	formRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
-			loginApi(ctx.form).then(res => {
+			try {
+				const res = await loginApi(ctx.form);
 				if (res.code == 200) {
-					submitBtnLoading.value = false;
 					$data.setLocalData('userID', res.data);
 					router.push('/');
 				}
-			});
+			} finally {
+				submitBtnLoading.value = false;
+			}
 		}
 	})
 }
@@ -103,7 +106,7 @@ function validatePass(rule, value, callback) {
 onMounted(() => {
 	ctx.form = {
 		user: '123',
-		password:  '1233',
+		password:  '123',
 	};
 });
 </script>

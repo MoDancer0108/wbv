@@ -59,20 +59,21 @@ function closedModal() {
 }
 function submit() {
 	const submitFormRef = ctx.getFormSlotRef('submitForm');
-	submitFormRef.validate((valid, fields) => {
+	submitFormRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
-			regApi(ctx.submitForm).then(res => {
+			try {
+				const res = await regApi(ctx.submitForm);
 				if (res.code == 200) {
 					ctx.refreshList();
 					ctx.closeModal('modal');
 					$toast.success({
 						message: '注册成功',
-						duration: 2000,
 					});
 				}
+			} finally {
 				submitBtnLoading.value = false;
-			});
+			}
 		}
 	})
 }

@@ -62,34 +62,37 @@ function append(data) {
 		ctx.model.currentAddRouteID = newChild.$treeNodeId;
 	});
 }
-function remove(data, node) {
-	$confirm({
-		title: '提示',
-		message: '确认删除?',
-		confirmButtonText: '确定',
-		cancelButtonText: '取消',
-		type: 'warning',
-		beforeClose: (action, instance, done) => {
-			if (action === 'confirm') {
-				instance.confirmButtonLoading = true;
-				const parent = node.parent;
-				const children = parent.data.children || parent.data;
-				const index = children.findIndex(it => it.$treeNodeId === data.$treeNodeId);
-				children.splice(index, 1);
-				// 清空form
-				const submitFormRef = ctx.getFormSlotRef('submitForm');
-				submitFormRef.resetFields();
-				ctx.submitForm = {};
-				ctx.model.currentRouteId = null;
-				if (data.$treeNodeId === ctx.model.currentAddRouteID) {
-					ctx.model.currentAddRouteID = null;
+async function remove(data, node) {
+	try {
+		await $confirm({
+			title: '提示',
+			message: '确认删除?',
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'warning',
+			beforeClose: async (action, instance, done) => {
+				if (action == 'confirm') {
+					instance.confirmButtonLoading = true;
+					const parent = node.parent;
+					const children = parent.data.children || parent.data;
+					const index = children.findIndex(it => it.$treeNodeId == data.$treeNodeId);
+					children.splice(index, 1);
+					// 清空form
+					const submitFormRef = ctx.getFormSlotRef('submitForm');
+					submitFormRef.resetFields();
+					ctx.submitForm = {};
+					ctx.model.currentRouteId = null;
+					if (data.$treeNodeId == ctx.model.currentAddRouteID) {
+						ctx.model.currentAddRouteID = null;
+					}
+					await ctx.model.submit();
+					done();
+				} else {
+					done();
 				}
-				done();
-			} else {
-				done()
-			}
-		},
-	}).then(() => {}).catch(() => {});
+			},
+		});
+	} catch(err) {}
 }
 function view(data, node) {
 	ctx.model.currentRouteId = data.$treeNodeId;

@@ -21,16 +21,19 @@ import menus from './menu/index.vue'
 
 const router = useRouter();
 
-function logOff() {
-	$confirm({
-		message: '退出登录?',
-		confirmButtonText: '确定',
-		cancelButtonText: '取消',
-		type: 'error',
-	}).then(() => {
-		$data.setLocalData('userID', '');
-		router.push('/login');
-	}).catch(() => {});
+async function logOff() {
+	try {
+		const res = await $confirm({
+			message: '退出登录?',
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'error',
+		});
+		if (res == 'confirm') {
+			$data.setLocalData('userID', '');
+			router.push('/login');
+		}
+	} catch(err) {}
 }
 </script>
 

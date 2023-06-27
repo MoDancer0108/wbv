@@ -36,7 +36,6 @@
 <script setup>
 import { ref, reactive, inject } from 'vue';
 import { FormSlot } from '@/wbv';
-import { updateRouterApi } from '@/api/router';
 
 const ctx = inject('ctx');
 const submitBtnLoading = ref(false);
@@ -71,7 +70,7 @@ function nameValidate(rule, value, callback) {
 async function submit() {
 	const submitFormRef = ctx.getFormSlotRef('submitForm');
 	if (ctx.model.currentRouteId) {
-		const valid = await submitFormRef.validate()
+		const valid = await submitFormRef.validate();
 		if (!valid) {
 			return;
 		}
@@ -81,17 +80,8 @@ async function submit() {
 	Object.keys(ctx.submitForm).forEach(key => {
 		res[0][key] = ctx.submitForm[key];
 	});
-	updateRouterApi(ctx.list).then(res => {
-		if (res.code == 200) {
-			ctx.refreshList();
-			window.location.reload();
-			$toast.success({
-				message: '保存成功',
-				duration: 2000,
-			});
-		}
-		submitBtnLoading.value = false;
-	});
+	await ctx.model.submit();
+	submitBtnLoading.value = false;
 }
 </script>
 
