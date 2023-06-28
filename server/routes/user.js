@@ -80,7 +80,7 @@ router.post("/userList/getlist", function(req,res) {
 				code: 200,
 				data,
 			});
-		}, 1000);
+		}, 600);
 	})
 });
 

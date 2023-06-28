@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory, hasNecessaryRoute } from 'vue-router';
-
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { getRouterListApi } from '@/api/router';
+import { defaultMenus } from './defaultMenus';
 
 const routes = [
   {
@@ -66,7 +66,7 @@ router.beforeEach(async (to, from) => {
         item.url
       );
       $data.setData('menus', menus);
-      const addRoutes = menus.map(item => {
+      const addRoutes = [...defaultMenus, ...menus].map(item => {
         if (item.children && item.children.length) {
           return {
             ...item,

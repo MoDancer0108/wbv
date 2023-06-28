@@ -44,11 +44,12 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useRouter } from "vue-router";
+import { defaultMenus } from '@/router/defaultMenus';
 
 const router = useRouter();
 const currentRoute = router.currentRoute.value.fullPath;
 const defaultActive = ref(currentRoute);
-const menus = reactive($data.getData('menus'));
+const menus = reactive([...defaultMenus, ...$data.getData('menus')]);
 
 function clickmenu(e) {
 	router.push(e.index);

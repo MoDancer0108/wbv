@@ -26,14 +26,14 @@ router.post('/reg', function(req, res, next) {
 					code: -1,
 					msg: '账号已存在!',
 				});
-			}, 1000);
+			}, 600);
 		} else {
 			mongo("add", "userList", obj, function(data2) {
 				setTimeout(() => {
 					res.send({
 						code: 200,
 					});
-				}, 1000);
+				}, 600);
 			})
 		}
 	})
@@ -56,14 +56,14 @@ router.post('/login', function(req, res, next) {
 					code: 200,
 					data: data[0].id,
 				});
-			}, 1000);
+			}, 600);
 		} else {
 			setTimeout(() => {
 				res.send({
 					code: -1,
 					msg: '账号密码不正确!',
 				});
-			}, 1000);
+			}, 600);
 		}
 	})
 });

@@ -61,27 +61,30 @@ function nameValidate(rule, value, callback) {
 	const res = $utils.findKeyValueByTree('name', ctx.submitForm.name, ctx.list);
 	if (value == '') {
 		callback(new Error('请输入路由Name'));
-	} else if (res.length > 1) {
+	} else if (res.length) {
 		callback(new Error('路由Name已存在'));
 	} else {
 		callback();
 	}
 }
 async function submit() {
-	const submitFormRef = ctx.getFormSlotRef('submitForm');
-	if (ctx.model.currentRouteId) {
+	if (ctx.model.currentRouteID) {
+		const submitFormRef = ctx.getFormSlotRef('submitForm');
 		const valid = await submitFormRef.validate();
 		if (!valid) {
 			return;
 		}
+		const res = $utils.findKeyValueByTree('$treeNodeId', ctx.model.currentRouteID, ctx.list);
+		Object.keys(ctx.submitForm).forEach(key => {
+			res[0][key] = ctx.submitForm[key];
+		});
+		submitBtnLoading.value = true;
+		try {
+			await ctx.model.submit();
+		} finally {
+			submitBtnLoading.value = false;
+		}
 	}
-	submitBtnLoading.value = true;
-	const res = $utils.findKeyValueByTree('$treeNodeId', ctx.model.currentRouteId, ctx.list);
-	Object.keys(ctx.submitForm).forEach(key => {
-		res[0][key] = ctx.submitForm[key];
-	});
-	await ctx.model.submit();
-	submitBtnLoading.value = false;
 }
 </script>
 
