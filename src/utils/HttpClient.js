@@ -24,16 +24,15 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
             });
 		}
 	} else {
-		if (postobj.catchcallback) {
-			// postobj.catchcallback.catch(res);
-		} else {
-			console.log('============');
-			console.log(url);
-			console.log('============');
-            $toast.error({
-                message: '系统走神了!',
-            });
-		}
+		postobj.thencallback({
+			code: -1,
+		});
+		console.log('============');
+		console.log(url);
+		console.log('============');
+		$toast.error({
+			message: '系统走神了!',
+		});
 	}
 };
 
@@ -104,11 +103,7 @@ HttpClient.prototype.post = function(url, params,isload) {
             this.handlePost(postobj, res.data, url);
         })
         .catch((err) => {
-            if (postobj.catchcallback) {
-                // postobj.catchcallback(err);
-            } else {
-            }
-            console.log(err);
+            this.handlePost(postobj, null, url);
         });
 	return postobj;
 };
