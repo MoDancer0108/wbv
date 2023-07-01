@@ -5,9 +5,9 @@ var mongodb =require("mongodb");
 
 var ObjectId = mongodb.ObjectId;
 
-router.post("/routerList/getlist", function(req,res) {
+router.post("/routeList/getlist", function(req,res) {
 	mongo("find", "json", {
-		name: 'routerList',
+		name: 'routeList',
 	}, function(data) {
 		setTimeout(() => {
 			res.send({
@@ -18,13 +18,13 @@ router.post("/routerList/getlist", function(req,res) {
 	})
 });
 
-router.post("/routerList/update",function(req,res){
+router.post("/routeList/update",function(req,res){
 	const {
 		data,
 	} = req.body;
 	const jsonData = JSON.stringify(data);
 	mongo("find", "json", {
-		name: 'routerList',
+		name: 'routeList',
 	}, function(data) {
 		const obj = {
 			...data[0],

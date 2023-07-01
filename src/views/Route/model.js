@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { updateRouterApi } from '@/api/router';
+import { updateRouteApi } from '@/api/route';
 
 export default ctx => {
 	const listLoading = ref(false);
@@ -7,7 +7,7 @@ export default ctx => {
 	const newRouteID = ref(false);
 
 	async function submit() {
-		const res = await updateRouterApi(ctx.list);
+		const res = await updateRouteApi(ctx.list);
 		if (res.code == 200) {
 			window.location.reload();
 		}

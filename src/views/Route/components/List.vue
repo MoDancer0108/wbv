@@ -32,7 +32,7 @@
 					</template>
 				</el-tree>
 			</div>
-			<RouterDetail class="detail"></RouterDetail>
+			<RouteDetail class="detail"></RouteDetail>
 		</div>
 	</ListSlot>
 </template>
@@ -40,7 +40,7 @@
 <script setup>
 import { inject, nextTick } from 'vue';
 import { ListSlot } from '@/wbv';
-import RouterDetail from './RouterDetail';
+import RouteDetail from './RouteDetail';
 
 const ctx = inject('ctx');
 
@@ -52,6 +52,7 @@ function append(data) {
         url: '@/views/',
 		hidden: false,
 		order: 0,
+        keepAlive: false,
 	};
 	if (data.children) {
 		data.children.push(newChild);

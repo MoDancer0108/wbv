@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { getRouterListApi } from '@/api/router';
+import { getRouteListApi } from '@/api/route';
+import * as config from '@/config';
 import { defaultMenus } from './defaultMenus';
 
 const routes = [
@@ -38,7 +39,7 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/hello',
+    redirect: config.defaultRoute,
     name: 'Index',
     component: () => import('../views/Index/index.vue'),
     children: [],
@@ -58,7 +59,8 @@ router.beforeEach(async (to, from) => {
   // 添加路由
   if (!$data.getData('menus') || !$data.getData('menus').length) {
     try {
-      const res = await getRouterListApi();
+      const res = await getRouteListApi();
+      // const res = { code: 200, data: [] };
       if (res.code == 200) {
         const menus = res.data.filter(item =>
           item.label &&
@@ -66,7 +68,7 @@ router.beforeEach(async (to, from) => {
           item.path &&
           item.url
         );
-        $data.setData('menus', menus);
+        $data.setData('menus', [...defaultMenus, ...menus]);
         const addRoutes = [...defaultMenus, ...menus].map(item => {
           if (item.children && item.children.length) {
             return {

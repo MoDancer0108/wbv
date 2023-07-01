@@ -6,17 +6,32 @@ export const getTime = e => {
 
 export const findKeyValueByTree = (key, value, tree, children = 'children') => {
     let res = [];
-    const _ = (key, value, tree, children = 'children') => {
-        for (let i = 0; i < tree.length; i ++) {
-            const item = tree[i];
+    const _ = _tree => {
+        for (let i = 0; i < _tree.length; i ++) {
+            const item = _tree[i];
             if (item[key] === value) {
                 res.push(item);
             }
             if (item[children] && item[children].length) {
-                _(key, value, item[children], children)
+                _(item[children])
             }
         }
     };
-    _(key, value, tree, children);
+    _(tree);
+    return res;
+};
+
+export const getArrayByTree = (tree, children = 'children') => {
+    let res = [];
+    const _ = _tree => {
+        for (let i = 0; i < _tree.length; i ++) {
+            const item = _tree[i];
+            res.push(item);
+            if (item[children] && item[children].length) {
+                _(item[children], children)
+            }
+        }
+    };
+    _(tree, children);
     return res;
 };

@@ -24,10 +24,20 @@
 				<el-switch
 					v-model="ctx.submitForm.hidden"
 					style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66"
+					active-text="隐藏"
+    				inactive-text="显示"
 				/>
 			</el-form-item>
 			<el-form-item label="菜单排序" prop="order">
 				<el-input v-model="ctx.submitForm.order" placeholder="请输入菜单排序" />
+			</el-form-item>
+			<el-form-item label="是否缓存">
+				<el-switch
+					v-model="ctx.submitForm.keepAlive"
+					style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+					active-text="是"
+    				inactive-text="否"
+				/>
 			</el-form-item>
 		</FormSlot>
 	</div>
@@ -58,7 +68,9 @@ const submitFormRules = reactive({
 });
 
 function nameValidate(rule, value, callback) {
-	const res = $utils.findKeyValueByTree('name', ctx.submitForm.name, ctx.list);
+	const res = $utils.findKeyValueByTree('name', ctx.submitForm.name, ctx.list)
+		.filter(it => it.$treeNodeId != ctx.model.currentRouteID);
+    console.log(res)
 	if (value == '') {
 		callback(new Error('请输入路由Name'));
 	} else if (res.length) {

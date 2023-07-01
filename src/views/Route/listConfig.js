@@ -1,4 +1,4 @@
-import { getRouterListApi } from '@/api/router';
+import { getRouteListApi } from '@/api/route';
 
 export default {
     async getList({
@@ -6,7 +6,7 @@ export default {
     }) {
         const { model } =ctx;
         model.listLoading = true;
-        const res = await getRouterListApi();
+        const res = await getRouteListApi();
         model.listLoading = false;
         if (res.code == 200) {
             return {

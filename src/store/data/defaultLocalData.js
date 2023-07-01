@@ -1,3 +1,5 @@
 export default {
-	userID: 'String',
+	userID: 'String', // 用户id
+	tabList: 'Array',
+	currentTab: 'String',
 };
