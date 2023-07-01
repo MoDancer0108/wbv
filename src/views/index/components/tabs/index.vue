@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -29,6 +29,7 @@ const tabList = computed(() => $data.getLocalData('tabList'));
 const currentTab = computed(() => $data.getLocalData('currentTab'));
 
 function tabChange(e) {
+	// 点击tab时跳转到对应路由
 	const _currentTab = tabList.value[e.index].value;
 	$data.setLocalData('currentTab', _currentTab);
 	router.push(_currentTab);
@@ -36,10 +37,12 @@ function tabChange(e) {
 function delTab(e) {
 	const _tabList = $data.getLocalData('tabList');
 	const index = _tabList.findIndex(it => it.value == e);
+	// 无法删除首页
 	if (_tabList[index].readOnly) {
 		return;
 	}
 	_tabList.splice(index, 1);
+	// 删除当前tab时, 选中下一个tab, 如果已经是最后一个, 选中上一个
 	if (e == currentTab.value) {
 		const _currentTab = _tabList[index]?.value || _tabList[index - 1]?.value;
 		$data.setLocalData('currentTab', _currentTab);
@@ -47,20 +50,12 @@ function delTab(e) {
 	}
 	$data.setLocalData('tabList', _tabList);
 }
+// 鼠标中键点击为删除tab
 function mousedown(e, value) {
 	if (e.button == 1) {
 		this.delTab(value);
 	}
 }
-
-onMounted(() => {
-	if (tabList.value.length == 0) {
-		$data.setLocalData('tabList', [{ label: '首页', value: $config.defaultRoute, readOnly: true }]);
-	}
-	if (currentTab.value == '') {
-		$data.setLocalData('currentTab', $config.defaultRoute);
-	}
-});
 </script>
 
 <style scoped lang="scss">
@@ -75,18 +70,28 @@ onMounted(() => {
 	padding: 0 8px;
 	:deep(.el-tabs__header) {
 		border-bottom: none;
-		.el-tabs__item {
-			padding: 0 20px 0 24px !important;
-			user-select: none;
-			color: var(--el-text-color-primary);
-			&.is-active {
-				color: var(--el-color-primary);
+		.el-tabs__nav-wrap {
+			padding: 0 40px;
+			.el-tabs__nav-prev,
+			.el-tabs__nav-next {
+				width: 40px;
+				.el-icon {
+					transform: scale(1.8) translateY(-2px);
+				}
 			}
-			.el-icon.is-icon-close {
-				right: -12px;
-				width: 14px;
-				margin-left: 0;
+			.el-tabs__item {
+				padding: 0 20px 0 24px !important;
+				user-select: none;
 				color: var(--el-text-color-primary);
+				&.is-active {
+					color: var(--el-color-primary);
+				}
+				.el-icon.is-icon-close {
+					right: -12px;
+					width: 14px;
+					margin-left: 0;
+					color: var(--el-text-color-primary);
+				}
 			}
 		}
 	}

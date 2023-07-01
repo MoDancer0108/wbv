@@ -16,7 +16,7 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 	if (res) {
 		if (postobj.thencallback) {
 			postobj.thencallback(res);
-			console.log(res, url)
+			console.log('====================================', res, url)
 		}
 		if (res.code != 200 && res.msg) {
             $toast.error({
@@ -27,9 +27,9 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 		postobj.thencallback({
 			code: -1,
 		});
-		console.log('============');
+		console.log('====================================');
 		console.log(url);
-		console.log('============');
+		console.log('====================================');
 		$toast.error({
 			message: '系统走神了!',
 		});

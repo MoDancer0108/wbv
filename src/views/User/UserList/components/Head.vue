@@ -8,11 +8,7 @@
 		</el-form-item>
 		<el-form-item>
 			<el-button @click="clearsrhForm">重置</el-button>
-		</el-form-item>
-		<el-form-item>
 			<el-button @click="ctx.refreshList()">搜索</el-button>
-		</el-form-item>
-		<el-form-item>
 			<el-button type="primary" @click="add">新增</el-button>
 		</el-form-item>
 	</FormSlot>
@@ -25,7 +21,6 @@ import { FormSlot } from '@/wbv';
 const ctx = inject('ctx');
 
 function add() {
-	ctx.model.isAdd = true;
 	ctx.showModal('modal');
 }
 function clearsrhForm() {

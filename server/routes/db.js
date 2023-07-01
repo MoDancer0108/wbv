@@ -42,6 +42,7 @@ var update = function(client, collection, selector, callback) {
 	}).toArray(function(e, res) {
     collection.updateOne(res[0], {
       $set: {
+        ...res[0],
         ...item,
         updateDate: +new Date(),
         _id: ObjectId(id),

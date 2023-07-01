@@ -1,16 +1,26 @@
-import { httpclient } from './ApiTest'
+import { httpclient } from './ApiTest';
 
 
 export const getTestListApi = params => {
-    return httpclient.post('/user/testlist/getlist', params)
-}
-export const delTestApi = params => {
-    return httpclient.post('/user/testlist/del', { id: params })
-}
+    return httpclient.post('/user/testlist/getList', params);
+};
 export const updateTestApi = params => {
-    return httpclient.post('/user/testlist/update', params)
-}
+    return httpclient.post('/user/testlist/update', params);
+};
+export const delTestApi = params => {
+    return httpclient.post('/user/testlist/del', { id: params });
+};
 
 export const getUserListApi = params => {
-    return httpclient.post('/user/userList/getlist', params)
-}
+    return httpclient.post('/user/userList/getList', params);
+};
+export const updateUserApi = params => {
+    return httpclient.post('/user/userList/update', params);
+};
+export const delUserApi = params => {
+    return httpclient.post('/user/userList/del', { id: params });
+};
+
+export const getUserApi = params => {
+    return httpclient.post('/user/userDetail/get', { id: params });
+};

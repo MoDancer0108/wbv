@@ -1,10 +1,14 @@
 export const getTime = e => {
-    return new Date(e).toLocaleDateString()
-        + ' '
-        + new Date(e).toLocaleTimeString();
+    if (e) {
+        return new Date(e).toLocaleDateString()
+            + ' '
+            + new Date(e).toLocaleTimeString();
+    } else {
+        return '----/--/-- --:--:--';
+    }
 };
 
-export const findKeyValueByTree = (key, value, tree, children = 'children') => {
+export const getItemsByKeyValueFromTree = (key, value, tree, children = 'children') => {
     let res = [];
     const _ = _tree => {
         for (let i = 0; i < _tree.length; i ++) {

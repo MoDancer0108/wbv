@@ -85,6 +85,8 @@ function login() {
 				const res = await loginApi(ctx.form);
 				if (res.code == 200) {
 					$data.setLocalData('userID', res.data);
+					$data.setLocalData('tabList', [{ label: '首页', value: $config.defaultRoute, readOnly: true }]);
+					$data.setLocalData('currentTab', $config.defaultRoute);
 					router.push('/');
 				}
 			} finally {

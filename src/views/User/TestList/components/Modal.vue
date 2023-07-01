@@ -1,7 +1,7 @@
 <template>
 	<ModalSlot
 		:model="ctx.initModal('modal')"
-		:title="ctx.modalTitle"
+		:title="ctx.form2?.id ? '编辑' : '创建'"
 		width="30%"
 		:close-on-click-modal="false"
 		@closed="closedModal"

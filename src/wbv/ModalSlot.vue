@@ -30,3 +30,9 @@ function beforeClose(done) {
 	// done();// 一用这个done就再也show不开了
 }
 </script>
+
+<style scoped lang="scss">
+:deep(.el-dialog__title) {
+	user-select: none;
+}
+</style>

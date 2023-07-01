@@ -5,7 +5,7 @@ var mongodb =require("mongodb");
 
 var ObjectId = mongodb.ObjectId;
 
-router.post("/routeList/getlist", function(req,res) {
+router.post("/routeList/getList", function(req,res) {
 	mongo("find", "json", {
 		name: 'routeList',
 	}, function(data) {

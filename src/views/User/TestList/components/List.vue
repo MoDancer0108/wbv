@@ -16,7 +16,7 @@
 			</el-table-column>
 			<el-table-column prop="name" label="姓名" width="120" />
 			<el-table-column prop="city" label="城市" />
-			<el-table-column fixed="right" label="操作" width="200">
+			<el-table-column fixed="right" label="操作" width="300">
 				<template #default="{ row }">
 					<el-button type="primary" @click="edit(row)" plain>
 						编辑
@@ -38,6 +38,10 @@ import { delTestApi } from '@/api/user';
 const { getTime } = $utils;
 const ctx = inject('ctx');
 
+function edit(row) {
+	ctx.form2 = {...row};
+	ctx.showModal('modal');
+}
 async function del(row) {
 	try {
 		const res = await $confirm({
@@ -65,10 +69,5 @@ async function del(row) {
 			});
 		}
 	} catch(err) {}
-}
-function edit(row) {
-	ctx.modalTitle = '编辑';
-	ctx.form2 = {...row};
-	ctx.showModal('modal');
 }
 </script>

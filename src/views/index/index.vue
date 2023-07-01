@@ -70,12 +70,14 @@ async function logOff() {
 	.relative {
 		position: relative;
 		.main {
-			min-width: 600px;
 			height: calc(100vh - 100px);
 			background-color: #eee;
 			margin-top: 40px;
 			padding: 16px;
-			overflow: auto;
+			overflow-x: auto;
+			>.el-card {
+				min-width: 600px;
+			}
 		}
 	}
 }

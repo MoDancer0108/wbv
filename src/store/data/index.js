@@ -43,9 +43,8 @@ export const useStore = defineStore('data', {
     // double: (state) => state.num * 2,
   },
   actions: {
-    sendEvent(event, payload) {
-      // console.log(payload, '我是actions中的代码')
-    },
+    // 事件中心
+    sendEvent() {},
     onEvent(_event, callback) {
       this.$onAction(({
           name,
@@ -57,14 +56,14 @@ export const useStore = defineStore('data', {
         }
       );
     },
-
+    // 数据中心
     getData(key) {
       return JSON.parse(JSON.stringify(this.data))[key];
     },
     setData(key, value) {
       this.data[key] = value;
     },
-
+    // 本地存储数据
     getLocalData(key) {
       return JSON.parse(JSON.stringify(this.localData))[key];
     },
@@ -74,6 +73,7 @@ export const useStore = defineStore('data', {
       window.localStorage.setItem(LOCAL_KEY, JSON.stringify(localStorageData));
       this.localData[key] = value;
     },
+    // 清空本地存储数据
     clearLocalData() {
       window.localStorage.setItem(LOCAL_KEY, JSON.stringify(result));
       this.localData = result;

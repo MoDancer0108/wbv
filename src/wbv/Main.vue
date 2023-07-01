@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="wbv">
 		<slot></slot>
 	</div>
 </template>
