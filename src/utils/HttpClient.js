@@ -16,26 +16,23 @@ HttpClient.prototype.handlePost = function(postobj, res,url) {
 	if (res) {
 		if (postobj.thencallback) {
 			postobj.thencallback(res);
-			console.log(res, url)
+			console.log('====================================', res, url)
 		}
 		if (res.code != 200 && res.msg) {
             $toast.error({
                 message: res.msg,
-                duration: 2000,
             });
 		}
 	} else {
-		if (postobj.catchcallback) {
-			// postobj.catchcallback.catch(res);
-		} else {
-			console.log('============');
-			console.log(url);
-			console.log('============');
-            $toast.error({
-                message: '系统走神了!',
-                duration: 2000,
-            });
-		}
+		postobj.thencallback({
+			code: -1,
+		});
+		console.log('====================================');
+		console.log(url);
+		console.log('====================================');
+		$toast.error({
+			message: '系统走神了!',
+		});
 	}
 };
 
@@ -47,17 +44,17 @@ HttpClient.prototype.post = function(url, params,isload) {
 	// 	loading=uni.showLoading({
 	// 		title:'数据加载中',
 	// 		mask:false,
-			
+
 	// 	})
 	// }
-	let headers={}  
+	let headers={}
 	//设置公共参数
 	// if(this.datamanager)
 	// {
 	// 	let token = this.datamanager.getData("SYS_Token")?this.datamanager.getData("SYS_Token"):uni.getStorageSync("SYS_Token");
 	// 	headers.token = token;
 	// }
-	
+
 	//设置公共参数
 	let postobj = {};
 	postobj.then = function(fun) {
@@ -106,11 +103,7 @@ HttpClient.prototype.post = function(url, params,isload) {
             this.handlePost(postobj, res.data, url);
         })
         .catch((err) => {
-            if (postobj.catchcallback) {
-                // postobj.catchcallback(err);
-            } else {
-            }
-            console.log(err);
+            this.handlePost(postobj, null, url);
         });
 	return postobj;
 };

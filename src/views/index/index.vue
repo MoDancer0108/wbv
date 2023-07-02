@@ -1,91 +1,64 @@
 <template>
 	<el-container class="index">
-		<el-header class="head" :style="{ height: headHeight }">
+		<el-header class="header">
 			<div></div>
 			<el-button class="logOff" type="danger" @click="logOff()">退出登录</el-button>
 		</el-header>
 		<el-container>
-			<el-aside class="left" :style="{ height: leftHeight }">
-				<menus></menus>
+			<el-aside class="left">
+				<my-menu></my-menu>
 			</el-aside>
-			<el-main class="main" :style="{ height: mainHeight }">
-				<router-view></router-view>
-			</el-main>
+			<el-container class="relative">
+				<my-tabs></my-tabs>
+				<el-main class="main">
+					<el-card>
+						<router-view v-slot="{ Component }">
+							<keep-alive :include="keepAliveList">
+								<component :is="Component" />
+							</keep-alive>
+						</router-view>
+					</el-card>
+				</el-main>
+			</el-container>
 		</el-container>
 	</el-container>
 </template>
 
 <script setup>
-	import { onMounted, onActivated } from 'vue'
-	import { useRouter } from 'vue-router';
-	import menus from './menu/index.vue'
-	const router = useRouter();
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import myMenu from './components/myMenu/index.vue';
+import myTabs from './components/myTabs/index.vue';
 
-	const height = 60;
-	const headHeight = `${height}px`;
-	const leftHeight = `calc(100vh-${height}px)`;
-	const mainHeight = `calc(100vh-${height}px)`;
-	function logOff() {
-		$confirm({
+const router = useRouter();
+// 获取要缓存的二级路由
+const keepAliveList = computed(() => $data.getData('menus')
+	?.filter(it => it.keepAlive)
+	?.map(it => it.name));
+
+async function logOff() {
+	try {
+		const res = await $confirm({
 			message: '退出登录?',
 			confirmButtonText: '确定',
 			cancelButtonText: '取消',
 			type: 'error',
-		}).then(() => {
-			$data.setLocalData('userID', '');
+		});
+		if (res == 'confirm') {
+			$data.clearLocalData();
+			$data.setData('menus', []);
 			router.push('/login');
-		}).catch(() => {});
-	}
-
-	onMounted(() => {
-	})
-	onActivated(() => {
-	})
-
-	// console.log(process.env)
-// 树的降级
-	const tree = [
-		{name: '1', children:[
-			{name: '1-1', children:[
-				{name:'1-1-1'}
-			]},
-		]},
-		{name: '2', children:[
-			{name: '2-1', children:[
-				{name:'2-1-1'}
-			]},
-		]},
-	]
-	const getTreeLevel = (treeData, level = -1, curLevel = 0) => {
-		curLevel++
-		treeData.forEach(it => {
-			if (curLevel > level && level > -1) {
-				it.children = []
-			}
-			if (it.children && it.children.length) {
-				getTreeLevel(it.children, level, curLevel)
-			}
-		})
-	}
-	getTreeLevel(tree, 1)
-	// console.log(tree)
-// 数组替换
-	const arrA = ['a', 'b']
-	const arrB = [{name:'a', code:1}, {name:'b', code:2}]
-	const arrC = arrA.map(it => {
-		const obj = arrB.find(item => item.name === it)
-		if (obj.code) {
-			return obj.code
 		}
-	})
-	// console.log(arrC)
+	} catch(err) {}
+}
 </script>
 
 <style scoped lang="scss">
 .index {
 	height: 100vh;
 	overflow: hidden;
-	.head {
+	.header {
+		height: 60px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -95,9 +68,18 @@
 		width: auto;
 		border-right: solid 1px var(--el-menu-border-color);
 	}
-	.main {
-		overflow-y: auto;
-		min-width: 600px;
+	.relative {
+		position: relative;
+		.main {
+			height: calc(100vh - 100px);
+			background-color: #eee;
+			margin-top: 40px;
+			padding: 16px;
+			overflow-x: auto;
+			>.el-card {
+				min-width: 600px;
+			}
+		}
 	}
 }
 </style>
