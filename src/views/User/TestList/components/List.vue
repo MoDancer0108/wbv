@@ -1,5 +1,5 @@
 <template>
-	<ListSlot
+	<list-slot
 		:page-sizes="[5, 10, 30, 40]"
 		layout="total, sizes, prev, pager, next"
 		:background="true"
@@ -27,12 +27,12 @@
 				</template>
 			</el-table-column>
 		</el-table>
-	</ListSlot>
+	</list-slot>
 </template>
 
 <script setup>
 import { inject } from 'vue';
-import { ListSlot } from '@/wbv';
+import { listSlot } from '@/wbv';
 import { delTestApi } from '@/api/user';
 
 const { getTime } = $utils;

@@ -24,3 +24,13 @@ export const delUserApi = params => {
 export const getUserApi = params => {
     return httpclient.post('/user/userDetail/get', { id: params });
 };
+
+export const getCharacterListApi = params => {
+    return httpclient.post('/user/characterList/getList', params);
+};
+export const updateCharacterrApi = params => {
+    return httpclient.post('/user/characterList/update', params);
+};
+export const delCharacterrApi = params => {
+    return httpclient.post('/user/characterList/del', { id: params });
+};

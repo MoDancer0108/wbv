@@ -1,10 +1,11 @@
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { updateRouteApi } from '@/api/route';
 
 export default ctx => {
 	const listLoading = ref(false);
 	const currentRouteID = ref('');
 	const newRouteID = ref(false);
+	const characterList = reactive([]);
 
 	async function submit() {
 		const res = await updateRouteApi(ctx.list);
@@ -15,7 +16,7 @@ export default ctx => {
 
 	// 清空表单, 表单校验
 	function clearSubmitForm() {
-		const submitFormRef = ctx.getFormSlotRef('submitForm');
+		const submitFormRef = ctx.getformSlotRef('submitForm');
 		submitFormRef.resetFields();
 		ctx.submitForm = {};
 	}
@@ -24,6 +25,7 @@ export default ctx => {
 		listLoading,
 		currentRouteID,
 		newRouteID,
+		characterList,
 
 		submit,
 		clearSubmitForm,

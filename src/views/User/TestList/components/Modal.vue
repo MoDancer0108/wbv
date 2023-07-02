@@ -1,12 +1,12 @@
 <template>
-	<ModalSlot
+	<modal-slot
 		:model="ctx.initModal('modal')"
 		:title="ctx.form2?.id ? '编辑' : '创建'"
 		width="30%"
 		:close-on-click-modal="false"
 		@closed="closedModal"
 	>
-		<FormSlot
+		<form-slot
 			:model="ctx.initForm('form2')"
 			:rules="form2Rules"
 		>
@@ -16,17 +16,17 @@
 			<el-form-item label="城市" prop="city">
 				<el-input v-model="ctx.form2.city" />
 			</el-form-item>
-		</FormSlot>
+		</form-slot>
 		<template #footer>
 			<el-button @click="ctx.closeModal('modal')">取消</el-button>
 			<el-button type="primary" @click="submit" :loading="submitBtnLoading">确定</el-button>
 		</template>
-	</ModalSlot>
+	</modal-slot>
 </template>
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { FormSlot, ModalSlot } from '@/wbv';
+import { formSlot, modalSlot } from '@/wbv';
 import { updateTestApi } from '@/api/user';
 
 const ctx = inject('ctx');
@@ -41,12 +41,12 @@ const form2Rules = reactive({
 });
 
 function closedModal() {
-	const form2Ref = ctx.getFormSlotRef('form2');
+	const form2Ref = ctx.getformSlotRef('form2');
 	form2Ref.resetFields();
 	ctx.form2 = {};
 }
 function submit() {
-	const form2Ref = ctx.getFormSlotRef('form2');
+	const form2Ref = ctx.getformSlotRef('form2');
 	form2Ref.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;

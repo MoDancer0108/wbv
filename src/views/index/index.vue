@@ -1,6 +1,6 @@
 <template>
 	<el-container class="index">
-		<el-header class="head">
+		<el-header class="header">
 			<div></div>
 			<el-button class="logOff" type="danger" @click="logOff()">退出登录</el-button>
 		</el-header>
@@ -27,8 +27,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import myMenu from './components/menu/index.vue'
-import myTabs from './components/tabs/index.vue'
+import myMenu from './components/myMenu/index.vue';
+import myTabs from './components/myTabs/index.vue';
 
 const router = useRouter();
 // 获取要缓存的二级路由
@@ -46,6 +46,7 @@ async function logOff() {
 		});
 		if (res == 'confirm') {
 			$data.clearLocalData();
+			$data.setData('menus', []);
 			router.push('/login');
 		}
 	} catch(err) {}
@@ -56,7 +57,7 @@ async function logOff() {
 .index {
 	height: 100vh;
 	overflow: hidden;
-	.head {
+	.header {
 		height: 60px;
 		display: flex;
 		justify-content: space-between;

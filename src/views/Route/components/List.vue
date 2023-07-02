@@ -1,8 +1,8 @@
 <template>
-	<ListSlot>
+	<list-slot>
 		<div class="flex">
 			<div class="tree">
-				<div class="head">
+				<div class="header">
 					<el-button type="primary" @click="append(ctx.list)" :disabled="!!ctx.model.newRouteID">新增</el-button>
 				</div>
 				<el-tree
@@ -24,23 +24,23 @@
 								{{ node.label }}
 							</div>
 							<div>
-								<el-button v-if="Array.isArray(data.children)" type="primary" link @click="append(data)">新增</el-button>
-								<el-button v-if="!data.readOnly" type="danger" link @click="remove(data, node)">删除</el-button>
+								<el-button v-if="Array.isArray(data.children)" type="primary" link @click.stop="append(data)" :disabled="!!ctx.model.newRouteID">新增</el-button>
+								<el-button v-if="!data.readOnly" type="danger" link @click="remove(data, node)" :disabled="ctx.model.newRouteID != data.$treeNodeId && !!ctx.model.newRouteID">删除</el-button>
 							</div>
 						</div>
 						<div :class="{ currentRoute: ctx.model.currentRouteID == data.$treeNodeId }"></div>
 					</template>
 				</el-tree>
 			</div>
-			<RouteDetail class="detail"></RouteDetail>
+			<route-detail class="detail"></route-detail>
 		</div>
-	</ListSlot>
+	</list-slot>
 </template>
 
 <script setup>
 import { inject, nextTick } from 'vue';
-import { ListSlot } from '@/wbv';
-import RouteDetail from './RouteDetail';
+import { listSlot } from '@/wbv';
+import routeDetail from './routeDetail';
 
 const ctx = inject('ctx');
 
@@ -53,6 +53,7 @@ function append(data) {
 		hidden: false,
 		order: 0,
         keepAlive: false,
+		character: [],
 	};
 	if (data.children) {
 		data.children.push(newChild);
@@ -118,7 +119,7 @@ function view(data) {
 			border-right: solid 1px #ccc;
 			margin-right: 12px;
 			padding-right: 12px;
-			.head {
+			.header {
 				display: flex;
 				justify-content: flex-end;
 				margin-bottom: 12px;

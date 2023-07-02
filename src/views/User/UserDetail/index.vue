@@ -1,16 +1,16 @@
 <template>
 	<wbv>
-		<Main></Main>
+		<user-detail></user-detail>
 	</wbv>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-    name: 'UserDetail',
+    name: 'userDetail',
 });
 </script>
 <script setup>
 import { wbv } from '@/wbv';
-import Main from './components/Main';
+import userDetail from './components/userDetail';
 </script>

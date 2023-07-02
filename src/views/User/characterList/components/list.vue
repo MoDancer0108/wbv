@@ -14,21 +14,14 @@
 					{{ getTime(row.updateDate) }}
 				</template>
 			</el-table-column>
-			<el-table-column prop="user" label="账号" width="200" />
-			<el-table-column prop="password" label="密码" width="200" />
-			<el-table-column prop="character" label="角色">
+			<el-table-column prop="name" label="角色" width="200">
 				<template #default="{ row }">
-					<my-tag
-						:text="getLabelByValueFromArray(row.character, ctx.model.characterList, { label: 'name', value: 'id' })"
-						:color="getLabelByValueFromArray(row.character, ctx.model.characterList, { label: 'color', value: 'id' })"
-					></my-tag>
+					<my-tag :text="row.name" :color="row.color"></my-tag>
 				</template>
 			</el-table-column>
+			<el-table-column prop="color" label="颜色" />
 			<el-table-column fixed="right" label="操作" width="300">
 				<template #default="{ row }">
-					<el-button type="primary" @click="view(row)" plain>
-						查看
-					</el-button>
 					<el-button type="primary" @click="edit(row)" plain>
 						编辑
 					</el-button>
@@ -43,20 +36,13 @@
 
 <script setup>
 import { inject } from 'vue';
-import { useRouter } from 'vue-router';
 import { listSlot } from '@/wbv';
 import myTag from '@/components/myTag';
-import { delUserApi } from '@/api/user';
+import { delCharacterrApi } from '@/api/user';
 
-const router = useRouter();
-const { getTime, getLabelByValueFromArray } = $utils;
+const { getTime } = $utils;
 const ctx = inject('ctx');
 
-function view(row) {
-	const _currentTab = '/user/userDetail?id=' + row.id;
-	$data.setLocalData('currentTab', _currentTab);
-	router.push(_currentTab);
-}
 function edit(row) {
 	ctx.submitForm = {...row};
 	ctx.showModal('modal');
@@ -72,7 +58,7 @@ async function del(row) {
 			beforeClose: async (action, instance, done) => {
 				if (action == 'confirm') {
 					instance.confirmButtonLoading = true;
-					const res = await delUserApi(row.id);
+					const res = await delCharacterrApi(row.id);
 					if (res.code == 200) {
 						ctx.refreshList();
 					}

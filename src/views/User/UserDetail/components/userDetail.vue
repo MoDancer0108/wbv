@@ -1,5 +1,6 @@
 <template>
-	<FormSlot
+	<form-slot
+		:key="router.currentRoute.value.query.id"
 		:model="ctx.initForm('submitForm')"
 		label-width="80px"
 		v-loading="loading"
@@ -25,13 +26,13 @@
 			<el-button @click="back">返回</el-button>
 			<el-button type="primary" @click="submit" :loading="submitBtnLoading">修改</el-button>
 		</el-form-item>
-	</FormSlot>
+	</form-slot>
 </template>
 
 <script setup>
 import { ref, inject, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { FormSlot } from '@/wbv';
+import { useRouter, onBeforeRouteUpdate } from 'vue-router';
+import { formSlot } from '@/wbv';
 import { getUserApi, updateUserApi } from '@/api/user';
 
 const router = useRouter();
@@ -46,7 +47,7 @@ function back() {
 	router.push(_currentTab);
 }
 function submit() {
-	const submitFormRef = ctx.getFormSlotRef('submitForm');
+	const submitFormRef = ctx.getformSlotRef('submitForm');
 	submitFormRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
@@ -64,9 +65,8 @@ function submit() {
 		}
 	})
 }
-async function getUserDetail() {
+async function getUserDetail(id) {
 	try {
-		const id = router.currentRoute.value.query.id;
 		if (!id) {
 			back();
 		}
@@ -84,8 +84,11 @@ async function getUserDetail() {
 	}
 }
 
+onBeforeRouteUpdate(to => {
+	getUserDetail(to.query.id);
+});
 onMounted(() => {
-	getUserDetail();
+	getUserDetail(router.currentRoute.value.query.id);
 });
 </script>
 

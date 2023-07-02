@@ -14,7 +14,7 @@ router.post("/routeList/getList", function(req,res) {
 				code: 200,
 				data: JSON.parse(data[0].data),
 			});
-		}, 600);
+		}, 400);
 	})
 });
 
@@ -33,7 +33,7 @@ router.post("/routeList/update",function(req,res){
 		mongo("update", "json", obj, function(data) {
 			setTimeout(() => {
 				res.send({ code: 200 });
-			}, 600);
+			}, 400);
 		})
 	})
 })

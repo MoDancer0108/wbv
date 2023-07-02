@@ -1,9 +1,10 @@
 <template>
 	<modal-slot
 		:model="ctx.initModal('modal')"
-		:title="ctx.submitForm?.id ? '编辑用户' : '创建用户'"
+		:title="ctx.submitForm?.id ? '编辑角色' : '创建角色'"
 		width="30%"
 		:close-on-click-modal="false"
+		@open="openModal"
 		@closed="closedModal"
 	>
 		<form-slot
@@ -11,21 +12,11 @@
 			label-width="60px"
 			:rules="submitFormRules"
 		>
-			<el-form-item label="账号" prop="user">
-				<el-input v-model="ctx.submitForm.user" placeholder="请输入账号" />
+			<el-form-item label="角色" prop="name">
+				<el-input v-model="ctx.submitForm.name" placeholder="请输入角色" />
 			</el-form-item>
-			<el-form-item v-if="!ctx.submitForm?.id" label="密码" prop="password">
-				<el-input v-model="ctx.submitForm.password" placeholder="请输入密码" />
-			</el-form-item>
-			<el-form-item  label="角色" prop="character">
-				<el-select v-model="ctx.submitForm.character" placeholder="请选择角色">
-					<el-option
-						v-for="item in ctx.model.characterList"
-						:key="item.id"
-						:label="item.name"
-						:value="item.id"
-					/>
-				</el-select>
+			<el-form-item label="颜色" prop="color">
+				<el-color-picker v-model="ctx.submitForm.color" />
 			</el-form-item>
 		</form-slot>
 		<template #footer>
@@ -38,22 +29,25 @@
 <script setup>
 import { ref, reactive, inject } from 'vue';
 import { formSlot, modalSlot } from '@/wbv';
-import { updateUserApi } from '@/api/user';
+import { updateCharacterrApi } from '@/api/user';
 
 const ctx = inject('ctx');
 const submitBtnLoading = ref(false);
 const submitFormRules = reactive({
-	user: [
-		{ required: true, message: '请输入账号', trigger: 'blur' },
+	name: [
+		{ required: true, message: '请输入角色', trigger: 'blur' },
 	],
-	password: [
-		{ required: true, message: '请输入密码', trigger: 'blur' },
-	],
-	character: [
-		{ required: true, message: '请选择角色', trigger: 'blur' },
+	color: [
+		{ required: true, message: '请选取颜色', trigger: 'blur' },
 	],
 });
 
+function openModal() {
+	console.log(ctx.submitForm.color)
+	if (!ctx.submitForm.color) {
+		ctx.submitForm.color = '#409EFF';
+	}
+}
 function closedModal() {
 	const submitFormRef = ctx.getformSlotRef('submitForm');
 	submitFormRef.resetFields();
@@ -65,7 +59,7 @@ function submit() {
 		if (valid) {
 			submitBtnLoading.value = true;
 			try {
-				const res = await updateUserApi(ctx.submitForm);
+				const res = await updateCharacterrApi(ctx.submitForm);
 				if (res.code == 200) {
 					ctx.refreshList();
 					ctx.closeModal('modal');

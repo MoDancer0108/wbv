@@ -1,15 +1,4 @@
-import { getUserListApi, getCharacterListApi } from '@/api/user';
-
-async function getCharacterList() {
-	try {
-		const res = await getCharacterListApi();
-		if (res.code == 200) {
-			return res.data.data;
-		}
-	} catch(err) {
-        return [];
-    }
-}
+import { getCharacterListApi } from '@/api/user';
 
 export default {
     async getList({
@@ -19,12 +8,11 @@ export default {
     }) {
         const { model } =ctx;
         model.listLoading = true;
-        const res = await getUserListApi({
+        const res = await getCharacterListApi({
             currentPage,
             pageSize,
             ...ctx.srhForm,
         });
-        ctx.model.characterList = await getCharacterList();
         model.listLoading = false;
         if (res.code == 200) {
             return {

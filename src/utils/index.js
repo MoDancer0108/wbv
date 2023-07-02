@@ -1,3 +1,4 @@
+// 时间戳转日期格式
 export const getTime = e => {
     if (e) {
         return new Date(e).toLocaleDateString()
@@ -7,7 +8,7 @@ export const getTime = e => {
         return '----/--/-- --:--:--';
     }
 };
-
+// 获取树中指定key value对应的item
 export const getItemsByKeyValueFromTree = (key, value, tree, children = 'children') => {
     let res = [];
     const _ = _tree => {
@@ -24,7 +25,7 @@ export const getItemsByKeyValueFromTree = (key, value, tree, children = 'childre
     _(tree);
     return res;
 };
-
+// 树转数组
 export const getArrayByTree = (tree, children = 'children') => {
     let res = [];
     const _ = _tree => {
@@ -38,4 +39,16 @@ export const getArrayByTree = (tree, children = 'children') => {
     };
     _(tree, children);
     return res;
+};
+
+export const getLabelByValueFromArray = (value, arr, keys = {
+    label: 'label',
+    value: 'value',
+}) => {
+    if (arr && arr.length && keys.label && keys.value) {
+        const item = arr.find(it => it[keys.value] == value);
+        return item?.[keys.label];
+    } else {
+        return '';
+    }
 };

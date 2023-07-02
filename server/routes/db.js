@@ -72,26 +72,30 @@ var find = function(client, collection, selector, callback) {
 }
 var findList = function(client, collection, selector, callback) {
   const {
-    currentPage,
-    pageSize,
+    currentPage = 1,
+    pageSize = 100,
     ...obj
   } = selector;
-  collection.find().toArray(function(e, res) {
-    collection.find(obj).toArray(function(err, reslult) {
-      if (err) throw err;
-      console.log('查询成功');
-      callback({
-        total: res.length,
-        data: reslult.reverse()
-          .map(it => {
-            const { _id, ...item } = it;
-            return { ...item, id: _id };
-          })
-          .slice((currentPage-1) * pageSize, currentPage * pageSize)
-        ,
-      })
-      client.close();
+  collection.find().toArray(function(err, reslult) {
+    if (err) throw err;
+    console.log('查询成功');
+    callback({
+      total: reslult.length,
+      data: reslult.reverse()
+        .sort((a, b) => b.updateDate - a.updateDate)
+        .filter(it => {
+          return Object.keys(obj).every(key => {
+            return it[key].includes(obj[key]);
+          });
+        })
+        .map(it => {
+          const { _id, ...item } = it;
+          return { ...item, id: _id };
+        })
+        .slice((currentPage-1) * pageSize, currentPage * pageSize)
+      ,
     })
+    client.close();
   })
 }
 var methodType = {

@@ -1,10 +1,10 @@
 <template>
 	<wbv>
-		<Main></Main>
+		<login></login>
 	</wbv>
 </template>
 
 <script setup>
 import { wbv } from '@/wbv';
-import Main from './Main';
+import login from './login';
 </script>

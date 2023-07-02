@@ -13,11 +13,11 @@ const props = defineProps([
 ]);
 const ctx = reactive({
 	initForm,
-	getFormSlotRef,
+	getformSlotRef,
 	_formRefs: {},
 
 	initList,
-	getListSlotRef,
+	getlistSlotRef,
 	_listRefs: {},
 	_getList: {},
 	refreshList(slotName) {
@@ -44,7 +44,7 @@ function initForm(formName) {
 	}
 	return [ctx[formName], formName];
 }
-function getFormSlotRef(slotName) {
+function getformSlotRef(slotName) {
 	if (ctx._formRefs[slotName] == undefined) {
 		ctx._formRefs[slotName] = null;
 	}
@@ -56,7 +56,7 @@ function initList(listName) {
 	}
 	return [ctx[listName], listName];
 }
-function getListSlotRef(slotName) {
+function getlistSlotRef(slotName) {
 	if (ctx._listRefs[slotName] == undefined) {
 		ctx._listRefs[slotName] = null;
 	}

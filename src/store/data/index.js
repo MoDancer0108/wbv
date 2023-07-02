@@ -76,7 +76,7 @@ export const useStore = defineStore('data', {
     // 清空本地存储数据
     clearLocalData() {
       window.localStorage.setItem(LOCAL_KEY, JSON.stringify(result));
-      this.localData = result;
+      this.localData = JSON.parse(JSON.stringify(result));
     },
   },
 });

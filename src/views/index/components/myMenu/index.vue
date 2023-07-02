@@ -59,31 +59,33 @@ function clickMenu(e) {
 }
 
 watch(currentTab, (n, o) => {
-	const arr = n.split('?')[0].split('/');
-	let label = '';
-	// 获取路由对应label
-	if (arr.length == 3) {
-		// 跳转三级路由时展开父级menu
-		menuRef.value.open(arr.slice(0, 2).join('/'));
-		const item = $utils.getItemsByKeyValueFromTree('path', arr.slice(2).join('/'), menus);
-		label = item[0].label;
-	} else {
-		const item = $utils.getItemsByKeyValueFromTree('path', arr.slice(0, 2).join('/'), menus);
-		label = item[0].label;
-	}
-	const tabList = $data.getLocalData('tabList');
-	const index = tabList.findIndex(it => it.value == n);
-	// tabList中找不到时说明是新tab, push进tabList中
-	if (index == -1) {
-		// 限定tab最大数量
-		// if (tabList.length >= $config.maxTabs) {
-		// 	tabList.splice(1, 1);
-		// }
-		tabList.push({
-			label,
-			value: n,
-		});
-		$data.setLocalData('tabList', tabList);
+	if (n) {
+		const arr = n.split('?')[0].split('/');
+		let label = '';
+		// 获取路由对应label
+		if (arr.length == 3) {
+			// 跳转三级路由时展开父级menu
+			menuRef.value.open(arr.slice(0, 2).join('/'));
+			const item = $utils.getItemsByKeyValueFromTree('path', arr.slice(2).join('/'), menus);
+			label = item[0].label;
+		} else {
+			const item = $utils.getItemsByKeyValueFromTree('path', arr.slice(0, 2).join('/'), menus);
+			label = item[0].label;
+		}
+		const tabList = $data.getLocalData('tabList');
+		const index = tabList.findIndex(it => it.value == n);
+		// tabList中找不到时说明是新tab, push进tabList中
+		if (index == -1) {
+			// 限定tab最大数量
+			// if (tabList.length >= $config.maxTabs) {
+			// 	tabList.splice(1, 1);
+			// }
+			tabList.push({
+				label,
+				value: n,
+			});
+			$data.setLocalData('tabList', tabList);
+		}
 	}
 });
 </script>

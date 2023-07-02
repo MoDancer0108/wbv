@@ -2,7 +2,7 @@
 	<div class="main" @keydown.enter="isLogin ? login() : reg()">
 		<el-card class="login">
 			<img class="img" src="/favicon.ico" alt="">
-			<FormSlot
+			<formSlot
 				:model="ctx.initForm('form')"
 				label-width="80px"
 				:rules="formRules"
@@ -26,7 +26,7 @@
 						<el-button type="primary" @click="reg" :loading="submitBtnLoading">注册</el-button>
 					</template>
 				</div>
-			</FormSlot>
+			</formSlot>
 		</el-card>
 	</div>
 </template>
@@ -34,7 +34,7 @@
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue';
 import { useRouter } from "vue-router";
-import { FormSlot } from '@/wbv';
+import { formSlot } from '@/wbv';
 import { regApi, loginApi } from '@/api/login';
 
 const ctx = inject('ctx');
@@ -57,7 +57,7 @@ function toggle() {
 	isLogin.value = !isLogin.value;
 }
 function reg() {
-	const formRef = ctx.getFormSlotRef('form');
+	const formRef = ctx.getformSlotRef('form');
 	formRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
@@ -77,14 +77,14 @@ function reg() {
 	})
 }
 function login() {
-	const formRef = ctx.getFormSlotRef('form');
+	const formRef = ctx.getformSlotRef('form');
 	formRef.validate(async (valid, fields) => {
 		if (valid) {
 			submitBtnLoading.value = true;
 			try {
 				const res = await loginApi(ctx.form);
 				if (res.code == 200) {
-					$data.setLocalData('userID', res.data);
+					$data.setLocalData('userInfo', res.data);
 					$data.setLocalData('tabList', [{ label: '首页', value: $config.defaultRoute, readOnly: true }]);
 					$data.setLocalData('currentTab', $config.defaultRoute);
 					router.push('/');

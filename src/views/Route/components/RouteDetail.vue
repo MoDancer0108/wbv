@@ -1,9 +1,9 @@
 <template>
 	<div class="detail">
-		<div class="head">
+		<div class="header">
 			<el-button type="primary" @click="submit" :loading="submitBtnLoading" :disabled="!ctx.model.currentRouteID">保存</el-button>
 		</div>
-		<FormSlot
+		<formSlot
 			:model="ctx.initForm('submitForm')"
 			label-width="120px"
 			:rules="submitFormRules"
@@ -36,13 +36,23 @@
 					style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
 				/>
 			</el-form-item>
-		</FormSlot>
+			<el-form-item  label="角色">
+				<el-select class="character" v-model="ctx.submitForm.character" placeholder="请选择角色" multiple>
+					<el-option
+						v-for="item in ctx.model.characterList"
+						:key="item.id"
+						:label="item.name"
+						:value="item.id"
+					/>
+				</el-select>
+			</el-form-item>
+		</formSlot>
 	</div>
 </template>
 
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { FormSlot } from '@/wbv';
+import { formSlot } from '@/wbv';
 
 const ctx = inject('ctx');
 const submitBtnLoading = ref(false);
@@ -78,7 +88,7 @@ function nameValidate(rule, value, callback) {
 }
 async function submit() {
 	if (ctx.model.currentRouteID) {
-		const submitFormRef = ctx.getFormSlotRef('submitForm');
+		const submitFormRef = ctx.getformSlotRef('submitForm');
 		const valid = await submitFormRef.validate();
 		if (!valid) {
 			return;
@@ -99,9 +109,12 @@ async function submit() {
 
 <style scoped lang="scss">
 .detail {
-	.head {
+	.header {
 		display: flex;
 		margin-bottom: 12px;
+	}
+	.el-select.character {
+		width: 100%;
 	}
 }
 </style>

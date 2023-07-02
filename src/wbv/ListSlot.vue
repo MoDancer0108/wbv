@@ -36,7 +36,7 @@ ctx._listRefs[slotName] = computed(() => ({
 
 function getList() {
 	let _getList;
-	if (listConfig instanceof Array) {
+	if (Array.isArray(listConfig)) {
 		const item = listConfig.find(item => item.slotName == slotName);
 		_getList = item.getList;
 	} else {

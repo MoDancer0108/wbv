@@ -1,22 +1,22 @@
 <template>
-	<FormSlot
+	<form-slot
 		:model="ctx.initForm('form1')"
 		:inline="true"
 	>
 		<el-form-item>
-			<el-input class="srh" v-model="ctx.form1.name" placeholder="按姓名搜索"></el-input>
+			<el-input class="srh" v-model="ctx.form1.name" placeholder="搜索姓名" @keydown.enter="ctx.refreshList()"></el-input>
 		</el-form-item>
 		<el-form-item>
 			<el-button @click="clearForm1">重置</el-button>
 			<el-button @click="ctx.refreshList()">搜索</el-button>
 			<el-button type="primary" @click="add">新增</el-button>
 		</el-form-item>
-	</FormSlot>
+	</form-slot>
 </template>
 
 <script setup>
 import { inject } from 'vue';
-import { FormSlot } from '@/wbv';
+import { formSlot } from '@/wbv';
 
 const ctx = inject('ctx');
 
@@ -24,7 +24,7 @@ function add() {
 	ctx.showModal('modal');
 }
 function clearForm1() {
-	const form1Ref = ctx.getFormSlotRef('form1');
+	const form1Ref = ctx.getformSlotRef('form1');
 	form1Ref.resetFields();
 	ctx.form1 = {};
 	ctx.refreshList();

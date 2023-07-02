@@ -5,49 +5,16 @@ import { defaultMenus } from './defaultMenus';
 
 const routes = [
   {
-    path: '/index',
-    redirect: '/index/foo',
-    name: 'Index2',
-    component: () => import('../pages/index/index.vue'),
-    children: [
-      {
-        path: 'foo',
-        name: 'Foo',
-        component: () => import('../pages/Foo.vue')
-      },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import('../pages/Test.vue')
-      },
-      {
-        path: 'pinia',
-        name: 'Pinia',
-        component: () => import('../pages/Pinia.vue')
-      },
-      {
-        path: 'myForm',
-        name: 'MyForm',
-        component: () => import('../pages/myForm/MyForm.vue')
-      },
-      {
-        path: 'test01',
-        name: 'Test01',
-        component: () => import('../pages/test01/index.vue')
-      },
-    ],
-  },
-  {
     path: '/',
     redirect: config.defaultRoute,
-    name: 'Index',
-    component: () => import('../views/Index/index.vue'),
+    name: 'index',
+    component: () => import('../views/index/index.vue'),
     children: [],
   },
   {
     path: '/login',
-    name: 'Login',
-    component: () => import('../views/Index/Login/index.vue'),
+    name: 'login',
+    component: () => import('../views/index/login/index.vue'),
   },
 ]
 
@@ -56,48 +23,58 @@ const router = createRouter({
   routes
 })
 router.beforeEach(async (to, from) => {
-  // 添加路由
-  if (!$data.getData('menus') || !$data.getData('menus').length) {
-    try {
-      const res = await getRouteListApi();
-      // const res = { code: 200, data: [] };
-      if (res.code == 200) {
-        const menus = res.data.filter(item =>
-          item.label &&
-          item.name &&
-          item.path &&
-          item.url
-        );
-        $data.setData('menus', [...defaultMenus, ...menus]);
-        const addRoutes = [...defaultMenus, ...menus].map(item => {
-          if (item.children && item.children.length) {
-            return {
-              ...item,
-              component: () => import('@/' + item.url.split('@/')[1]),
-              children: item.children.map(menu => ({
-                ...menu,
-                // import中至少得有个@/字符串
-                component: () => import('@/' + menu.url.split('@/')[1]),
-              })),
-            };
-          } else {
-            return {
-              ...item,
-              component: () => import('@/' + item.url.split('@/')[1]),
-            };
-          }
-        });
-        addRoutes.forEach(item => {
-          router.addRoute('Index', item)
-        });
-        // 添加后需要重定向一下
-        return to.fullPath;
-      }
-    } catch(err) {}
-  }
-
-  const isLogin = $data.getLocalData('userID');
+  const isLogin = $data.getLocalData('userInfo')?.id;
   if (isLogin) {
+    // 添加路由
+    if (!$data.getData('menus') || !$data.getData('menus').length) {
+      try {
+        const res = await getRouteListApi();
+        // const res = { code: 200, data: [] };
+        if (res.code == 200) {
+          const character = $data.getLocalData('userInfo').character || '';
+          const filter = item =>
+            item.label &&
+            item.name &&
+            item.path &&
+            item.url &&
+            (item.character.length == 0 || item.character.indexOf(character) > -1)
+          ;
+          const menus = [...defaultMenus, ...res.data]
+            .filter(filter)
+            .map(it => it.children ? ({
+              ...it,
+              children: it.children.filter(filter),
+            }) : it )
+          ;
+          $data.setData('menus', menus);
+          const addRoutes = menus.map(item => {
+            if (item.children && item.children.length) {
+              return {
+                ...item,
+                component: () => import('@/' + item.url.split('@/')[1]),
+                children: item.children.map(menu => ({
+                  ...menu,
+                  // import中至少得有个@/字符串
+                  component: () => import('@/' + menu.url.split('@/')[1]),
+                })),
+              };
+            } else {
+              return {
+                ...item,
+                component: () => import('@/' + item.url.split('@/')[1]),
+              };
+            }
+          });
+          addRoutes.forEach(item => {
+            router.addRoute('index', item)
+          });
+          // 添加后需要重定向一下
+          return to.fullPath;
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    }
     // 已登录不能去登录页
     if (to.path == '/login') {
       return false;
